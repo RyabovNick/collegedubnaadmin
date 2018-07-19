@@ -28,7 +28,6 @@ router.post('/user/login', function(req, res, next) {
         }
 
         if (user) {
-            console.log(user);
             var token = generateJWT(user);
             return res.json({ user: toAuthJSON(user) });
         } else {
@@ -63,17 +62,20 @@ router.post('/users', function(req, res, next) {
     });
 });
 
-router.get('/test', function(req, res, next) {
-    return res.json({ test: { what: "It's working" } });
-});
-
+/**
+ * Prepare password to save in db
+ * @param {string} password - User password
+ */
 function setPassword(password) {
     var salt = crypto.randomBytes(16).toString('hex');
     var hash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('hex');
-    console.log('salt: ' + salt + '\nhash: ' + hash);
     return [hash, salt];
 }
 
+/**
+ * Generate JWT
+ * @param {Array} user - id and username for JWT token payload
+ */
 function generateJWT(user) {
     var today = new Date();
     var exp = new Date(today);
@@ -89,9 +91,13 @@ function generateJWT(user) {
     );
 }
 
+/**
+ * Return token to user
+ * @param {Array} user - id, email
+ */
 function toAuthJSON(user) {
     return {
-        email: user[0],
+        email: user[1],
         token: generateJWT(user),
     };
 }
