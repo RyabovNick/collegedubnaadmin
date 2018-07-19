@@ -2,10 +2,13 @@ var router = require('express').Router();
 var passport = require('passport');
 var pool = require('../../config/config');
 var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
+var secret = require('../../config').secret;
 
 /**
  * Authentfication api
  * Get email and password in JSON
+ * Open passport.js
  * Check in DB
  * return token if true
  * if false - send error
@@ -25,8 +28,9 @@ router.post('/user/login', function(req, res, next) {
         }
 
         if (user) {
-            user.token = user.generateJWT();
-            return res.json({ user: user.toAuthJSON() });
+            console.log(user);
+            var token = generateJWT(user);
+            return res.json({ user: toAuthJSON(user) });
         } else {
             return res.status(422).json(info);
         }
@@ -68,6 +72,28 @@ function setPassword(password) {
     var hash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('hex');
     console.log('salt: ' + salt + '\nhash: ' + hash);
     return [hash, salt];
+}
+
+function generateJWT(user) {
+    var today = new Date();
+    var exp = new Date(today);
+    exp.setDate(today.getDate() + 60);
+
+    return jwt.sign(
+        {
+            id: user[0],
+            username: user[1],
+            exp: parseInt(exp.getTime() / 1000),
+        },
+        secret
+    );
+}
+
+function toAuthJSON(user) {
+    return {
+        email: user[0],
+        token: generateJWT(user),
+    };
 }
 
 module.exports = router;
