@@ -32,6 +32,7 @@ if (!isProduction) {
     app.use(errorhandler());
 }
 
+require('./config/passport');
 app.use(require('./routes'));
 
 app.use(function(req, res, next) {
