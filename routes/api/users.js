@@ -4,7 +4,28 @@ var pool = require('../../config/config');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var secret = require('../../config').secret;
+var auth = require('../auth.js');
 
+/**
+ * Auth
+ */
+router.get('/user', auth.required, function(req, res, next) {
+    pool.getConnection(function(err, con) {
+        if (err) throw err;
+        con.query('Select id, email from `users` where id = ?', [req.payload.id], function(
+            error,
+            result
+        ) {
+            if (error) throw error;
+            if (result.length == 0) {
+                return res.sendStatus(401);
+            } else {
+                return res.json({ user: toAuthJSON([result[0].id, result[0].email]) });
+            }
+            con.release();
+        });
+    });
+});
 /**
  * Authentfication api
  * Get email and password in JSON
