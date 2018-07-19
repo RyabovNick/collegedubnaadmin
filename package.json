@@ -2,8 +2,9 @@
     "name": "unidubnacollege",
     "version": "1.0.0",
     "description": "college web site",
-    "main": "server.js",
+    "main": "app.js",
     "scripts": {
+        "start": "node ./app.js",
         "test": "mocha",
         "docs": "./node_modules/.bin/esdoc"
     },
@@ -21,11 +22,18 @@
     "license": "ISC",
     "homepage": "https://bitbucket.org/For_Victory/unidubnacollege#readme",
     "dependencies": {
+        "body-parser": "^1.18.3",
+        "cors": "^2.8.4",
+        "errorhandler": "^1.5.0",
         "express": "^4.16.3",
         "express-jwt": "^5.3.1",
         "express-session": "^1.15.6",
         "jsonwebtoken": "^8.3.0",
-        "npm": "^6.2.0"
+        "method-override": "^3.0.0",
+        "morgan": "^1.9.0",
+        "mysql": "^2.16.0",
+        "npm": "^6.2.0",
+        "passport": "^0.4.0"
     },
     "devDependencies": {
         "esdoc": "^1.1.0",
