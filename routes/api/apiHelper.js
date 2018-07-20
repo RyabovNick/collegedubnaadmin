@@ -7,20 +7,23 @@ var pool = require('../../config/config');
  * Select all from table
  * @param {string} table - table name
  */
-module.exports = function findAll(table) {
+var findAll = function(tablename) {
     pool.getConnection(function(err, con) {
+        console.log(tablename);
         if (err) throw err;
-        con.query('Select * from ??', [table], function(error, result) {
+        con.query('Select * from `news`', function(error, result) {
             if (error) throw error;
             if (result.length == 0) {
-                return res.sendStatus(401);
+                return sendStatus(401);
             } else {
-                return res.send(result);
+                return result;
             }
             con.release();
         });
     });
 };
+
+exports.findAll = findAll;
 
 /**
  * Select all rows from table for current id
@@ -62,3 +65,5 @@ module.exports = function findByField(table, field, value) {
         });
     });
 };
+
+module.exports = findAll;
