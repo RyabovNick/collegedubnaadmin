@@ -8,6 +8,8 @@ let pool = require('../config/config_test');
 
 chai.use(chaihttp);
 
+var requester = chai.request('http://localhost:3000').keepOpen();
+
 describe('Users', () => {
     setTimeout(function() {
         beforeEach((done) => {
@@ -22,16 +24,27 @@ describe('Users', () => {
         });
     }, 10000);
 
+    var user = {
+        user: {
+            username: 'test_user',
+            email: 'test@mail.ru',
+            password: 'password',
+        },
+    };
+
     describe('/POST new user', () => {
         it('it should created new user', (done) => {
-            chai.request(app)
+            requester
                 .post('/api/users')
+                .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.a('array');
-                    res.body.length.should.be.eql(0);
+                    res.body.should.be.a('object');
+                    res.body.affectedRows.should.be.eql(1);
                     done();
                 });
         });
     });
 });
+
+requester.close();
