@@ -1,3 +1,6 @@
+/**
+ * Go to users or error
+ */
 var router = require('express').Router();
 
 router.use('/', require('./users'));

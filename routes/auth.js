@@ -1,6 +1,13 @@
-var jwt = require('express-jwt');
-var secret = require('../config').secret;
+/**
+ * auth.required to the page without public accces
+ */
+var jwt = require('express-jwt'),
+    secret = require('../config').secret;
 
+/**
+ * Find token in header and return authorization part
+ * @param {*} req - all header parameters
+ */
 function getTokenFromHeader(req) {
     if (
         (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token') ||
@@ -12,6 +19,9 @@ function getTokenFromHeader(req) {
     return null;
 }
 
+/**
+ * JSON
+ */
 var auth = {
     required: jwt({
         secret: secret,

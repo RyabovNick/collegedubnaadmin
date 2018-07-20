@@ -1,10 +1,14 @@
-var router = require('express').Router();
-var passport = require('passport');
-var pool = require('../../config/config');
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken');
-var secret = require('../../config').secret;
-var auth = require('../auth.js');
+/**
+ * API for registration, auth and getting new token
+ * pool - connection
+ */
+var router = require('express').Router(),
+    passport = require('passport'),
+    pool = require('../../config/config'),
+    crypto = require('crypto'),
+    jwt = require('jsonwebtoken'),
+    secret = require('../../config').secret,
+    auth = require('../auth.js');
 
 /**
  * Auth
