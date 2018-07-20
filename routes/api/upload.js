@@ -34,6 +34,18 @@ router.post('/upload', function(req, res, next) {
         .on('file', function(field, file) {
             console.log(field, file);
             files.push([field, file]);
+            pool.getConnection(function(err, con) {
+                if (err) throw err;
+                con.query(
+                    'Insert into `documents` (tag,name,link) values (?,?,?)',
+                    [file.type, file.name, file.path],
+                    function(error, result) {
+                        if (error) throw error;
+                        //res.send(result);
+                        con.release();
+                    }
+                );
+            });
         })
         .on('end', function() {
             console.log('-> upload done');

@@ -28,3 +28,7 @@ https://esdoc.org/manual/usage.html#configuration
 node.js realworld:
 
 https://github.com/gothinkster/node-express-realworld-example-app
+
+### For downloading file with right name
+
+https://www.w3schools.com/tags/att_a_download.asp
