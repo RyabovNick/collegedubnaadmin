@@ -27,33 +27,39 @@ router.post('/upload', function(req, res, next) {
     form.uploadDir = './files';
     form.keepExtensions = true;
 
-    form.on('field', function(field, value) {
-        console.log(field, value);
-        fields.push([field, value]);
-    })
-        .on('file', function(field, file) {
-            console.log(field, file);
-            files.push([field, file]);
-            pool.getConnection(function(err, con) {
-                if (err) throw err;
+    pool.getConnection(function(err, con) {
+        if (err) throw err;
+        var query_result = [];
+        form.on('field', function(field, value) {
+            console.log(field, value);
+            fields.push([field, value]);
+        })
+            .on('file', function(field, file) {
+                console.log(field, file);
+                files.push([field, file]);
+
                 con.query(
                     'Insert into `documents` (tag,name,link) values (?,?,?)',
                     [file.type, file.name, file.path],
                     function(error, result) {
                         if (error) throw error;
-                        //res.send(result);
-                        con.release();
+                        console.log(result);
+                        query_result.push(result);
                     }
                 );
+            })
+            .on('end', function() {
+                console.log('-> upload done');
+                console.log(query_result);
+                res.writeHead(200, { 'content-type': 'text/plain' });
+                res.write('received fields:\n\n ' + util.inspect(fields));
+                res.write('\n\n');
+                res.write('received files:\n\n ' + util.inspect(files));
+                res.end('\n\n ' + query_result);
+                con.release();
             });
-        })
-        .on('end', function() {
-            console.log('-> upload done');
-            res.writeHead(200, { 'content-type': 'text/plain' });
-            res.write('received fields:\n\n ' + util.inspect(fields));
-            res.write('\n\n');
-            res.end('received files:\n\n ' + util.inspect(files));
-        });
+    });
+
     form.parse(req);
 });
 

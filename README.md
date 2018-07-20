@@ -29,6 +29,10 @@ node.js realworld:
 
 https://github.com/gothinkster/node-express-realworld-example-app
 
+### Uploading files
+
+https://github.com/felixge/node-formidable
+
 ### For downloading file with right name
 
 https://www.w3schools.com/tags/att_a_download.asp
