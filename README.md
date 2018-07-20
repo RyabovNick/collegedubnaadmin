@@ -10,5 +10,21 @@
 
 script in package.json:
 
-npm test - run tests  
-npm docs - generate docs
+npm run start - run server  
+npm run test - run tests  
+npm run docs - generate docs
+
+mocha + chai:
+
+https://scotch.io/tutorials/test-a-node-restful-api-with-mocha-and-chai  
+http://www.chaijs.com/guide/styles/  
+http://www.chaijs.com/plugins/chai-http/  
+https://mochajs.org/#delayed-root-suite
+
+esdoc:
+
+https://esdoc.org/manual/usage.html#configuration
+
+node.js realworld:
+
+https://github.com/gothinkster/node-express-realworld-example-app

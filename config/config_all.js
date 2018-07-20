@@ -1,3 +1,6 @@
+/**
+ * https://www.terlici.com/2015/08/13/mysql-node-express.html
+ */
 var mysql = require('mysql'),
     async = require('async');
 

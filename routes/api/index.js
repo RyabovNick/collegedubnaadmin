@@ -5,6 +5,7 @@ var router = require('express').Router();
 
 router.use('/', require('./users'));
 router.use('/', require('./news'));
+router.use('/', require('./upload'));
 
 router.use(function(err, req, res, next) {
     if (err.name === 'ValidationError') {
