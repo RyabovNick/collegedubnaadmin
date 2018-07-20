@@ -7,7 +7,9 @@ var router = require('express').Router(),
 
 router.get('/news', function(req, res, next) {
     //console.log(typeof apiHelper.findAll('news'));
-    return apiHelper.findAll('news');
+    console.log('test');
+    console.log(apiHelper.findAll('news'));
+    return res.send('test');
     /*pool.getConnection(function(err, con) {
         if (err) throw err;
         con.query('Select * from `news`', function(error, result) {
@@ -22,5 +24,4 @@ router.get('/news', function(req, res, next) {
     });*/
 });
 
-module.exports = router;
-module.exports = apiHelper;
+(module.exports = router), apiHelper;

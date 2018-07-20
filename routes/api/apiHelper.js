@@ -9,13 +9,14 @@ var pool = require('../../config/config');
  */
 var findAll = function(tablename) {
     pool.getConnection(function(err, con) {
-        console.log(tablename);
+        //console.log(tablename);
         if (err) throw err;
         con.query('Select * from `news`', function(error, result) {
             if (error) throw error;
             if (result.length == 0) {
                 return sendStatus(401);
             } else {
+                console.log('______________RESULT____________');
                 return result;
             }
             con.release();
@@ -23,13 +24,7 @@ var findAll = function(tablename) {
     });
 };
 
-exports.findAll = findAll;
-
-/**
- * Select all rows from table for current id
- * @param {string} table - table name
- * @param {int} id - value
- */
+module.exports.findAll = findAll; /*
 module.exports = function findById(table, id) {
     pool.getConnection(function(err, con) {
         if (err) throw err;
@@ -44,13 +39,7 @@ module.exports = function findById(table, id) {
         });
     });
 };
-
-/**
- * Select all rows from table with where expression
- * @param {string} table - table name
- * @param {*} field - what field are you looking for
- * @param {*} value - the field value
- */
+*/ /*
 module.exports = function findByField(table, field, value) {
     pool.getConnection(function(err, con) {
         if (err) throw err;
@@ -67,3 +56,16 @@ module.exports = function findByField(table, field, value) {
 };
 
 module.exports = findAll;
+*/
+
+/**
+ * Select all rows from table for current id
+ * @param {string} table - table name
+ * @param {int} id - value
+ */
+/**
+ * Select all rows from table with where expression
+ * @param {string} table - table name
+ * @param {*} field - what field are you looking for
+ * @param {*} value - the field value
+ */
