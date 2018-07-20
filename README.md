@@ -36,3 +36,73 @@ https://github.com/felixge/node-formidable
 ### For downloading file with right name
 
 https://www.w3schools.com/tags/att_a_download.asp
+
+# TODO list
+
+-   site:
+    -   API:
+        -   news:
+            -   getPhotoByNewsID
+            -   getDocsByNewsId
+            -   getNewsById
+            -   get6news for main page
+            -   getAllNews:
+                -   getNewsCount
+                -   getNewsByPage
+        -   education + educationannotation
+        -   getAllNewsByPage
+        -   pages:
+            -   getById
+        -   sveden:
+            -   budget
+                -   link to the uni-dubna
+            -   common
+                -   getMainSveden
+            -   document
+                -   link to the uni-dubna
+            -   education
+                -   getEduAccred
+                -   eduaccred +
+                    -   edupriem
+                    -   eduperevod
+                    -   eduop
+                    -   educhislen
+            -   eduStandarts
+                -   getEduStandartDoc
+            -   employees
+                -   getHeads
+                -   getTeachingStaff
+            -   grants
+                -   getGraduateJob
+                -   getHostelInfo
+                -   getGrantsDocs
+            -   objects
+                -   getPurposeCab
+                -   getPurposeLibr
+                -   getPurposeEios
+            -   paid_edu
+                -   link to the uni-dubna
+            -   struct
+                -   getHeads
+            -   vacant
+                -   getVacant
+
+*   Admin
+    -   API
+        -   sveden:
+            -   budget
+                -   nothing
+            -   common
+            -   document
+                -   nothing
+            -   education
+            -   eduStandarts
+            -   employees
+            -   grants
+            -   objects
+            -   paid_edu
+                -   nothing
+            -   struct
+            -   vacant
+        *   news:
+        *   pages content

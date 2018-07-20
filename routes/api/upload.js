@@ -1,5 +1,6 @@
 /**
- * API for upload
+ * API for upload files using
+ * formidable library https://github.com/felixge/node-formidable
  */
 var router = require('express').Router(),
     pool = require('../../config/config'),
@@ -7,6 +8,9 @@ var router = require('express').Router(),
     util = require('util'),
     os = require('os');
 
+/**
+ * upload form for testing
+ */
 router.get('/upload_form', function(req, res, next) {
     res.writeHead(200, { 'content-type': 'text/html' });
     res.end(
@@ -18,26 +22,30 @@ router.get('/upload_form', function(req, res, next) {
     );
 });
 
+/**
+ * Upload API
+ *
+ * TODO:
+ * 1. auth !!!
+ */
 router.post('/upload', function(req, res, next) {
     var form = new formidable.IncomingForm(),
         files = [],
         fields = [];
 
-    //form.uploadDir = os.homedir();
     form.uploadDir = './files';
     form.keepExtensions = true;
 
     pool.getConnection(function(err, con) {
         if (err) throw err;
-        var query_result = [];
+        var query_result = []; //save all insert responses
         form.on('field', function(field, value) {
             console.log(field, value);
             fields.push([field, value]);
         })
             .on('file', function(field, file) {
                 console.log(field, file);
-                files.push([field, file]);
-
+                files.push([field, file]); //push file to folder
                 con.query(
                     'Insert into `documents` (tag,name,link) values (?,?,?)',
                     [file.type, file.name, file.path],
