@@ -1,6 +1,12 @@
 var pool = require('../../../config/config'),
     async = require('async');
 
+/**
+ * Insert data to table
+ * @param {response} res - send response from API
+ * @param {string} table - table name
+ * @param {JSON} data - JSON (req.body)
+ */
 var insert = function(res, table, data) {
     var keys = Object.keys(data),
         values = keys.map(function(key) {
@@ -25,6 +31,12 @@ var insert = function(res, table, data) {
     });
 };
 
+/**
+ * Update data from table. Id get from JSON (data)
+ * @param {response} res - send response from API
+ * @param {string} table - table name
+ * @param {JSON} data - JSON (req.body)
+ */
 var update = function(res, table, data) {
     var keys = Object.keys(data),
         values = Object.values(data);
@@ -55,6 +67,13 @@ var update = function(res, table, data) {
     });
 };
 
+/**
+ * Delete row from table. Id get from JSON (data)
+ * @param {response} res - send response from API
+ * @param {string} table - table name
+ * @param {JSON} data - JSON (req.body)
+ */
+var upda;
 var drop = function(res, table, data) {
     pool.getConnection(function(err, con) {
         if (err) throw err;

@@ -1,22 +1,23 @@
 /**
- * API for common
+ * API for common JUST CRUD
  */
 var router = require('express').Router(),
     apiHelper = require('./adminAPIHelper'),
-    pool = require('../../../config/config');
+    pool = require('../../../config/config'),
+    auth = require('../../auth');
 
 /**
  * get all from common
  */
 router
     .route('/common')
-    .post(function(req, res, next) {
+    .post(auth.required, function(req, res, next) {
         apiHelper.insert(res, 'common', req.body);
     })
-    .put(function(req, res, next) {
+    .put(auth.required, function(req, res, next) {
         apiHelper.update(res, 'common', req.body);
     })
-    .delete(function(req, res, next) {
+    .delete(auth.required, function(req, res, next) {
         apiHelper.drop(res, 'common', req.body);
     });
 
