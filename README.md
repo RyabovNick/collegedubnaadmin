@@ -42,9 +42,9 @@ https://www.w3schools.com/tags/att_a_download.asp
 -   site:
     -   API:
         -   news:
-            -   getPhotoByNewsID
-            -   getDocsByNewsId
-            -   getNewsById
+            -   getPhotoByNewsID +
+            -   getDocsByNewsId +
+            -   getNewsById +
             -   get6news for main page
             -   getAllNews:
                 -   getNewsCount
