@@ -14,9 +14,9 @@ var pool = require('../../config/config'),
  */
 var findAll = function(res, tablename) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) return res.status(406).send(err);
         con.query('Select * from ??', [tablename], function(error, result) {
-            if (error) throw error;
+            if (error) return res.status(400).send(error);
             if (result.length == 0) {
                 con.release();
                 return res.sendStatus(204);
@@ -36,9 +36,9 @@ var findAll = function(res, tablename) {
  */
 var findById = function findById(res, table, id) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) return res.status(406).send(err);
         con.query('Select * from ?? where id = ?', [table, id], function(error, result) {
-            if (error) throw error;
+            if (error) return res.status(400).send(error);
             if (result.length == 0) {
                 con.release();
                 return res.sendStatus(204);
@@ -59,9 +59,9 @@ var findById = function findById(res, table, id) {
  */
 var findByField = function(res, table, field, value) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) return res.status(406).send(err);
         con.query('Select * from ?? where ?? = ?', [table, field, value], function(error, result) {
-            if (error) throw error;
+            if (error) return res.status(400).send(error);
             if (result.length == 0) {
                 con.release();
                 return res.sendStatus(204);
@@ -82,12 +82,12 @@ var findByField = function(res, table, field, value) {
  */
 var findByLike = function(res, table, field, value) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) return res.status(406).send(err);
         con.query("Select * from ?? where ?? like '%?%'", [table, field, value], function(
             error,
             result
         ) {
-            if (error) throw error;
+            if (error) return res.status(400).send(error);
             if (result.length == 0) {
                 con.release();
                 return res.sendStatus(204);
@@ -107,9 +107,9 @@ var findByLike = function(res, table, field, value) {
  */
 var findAllWithOrder = function(res, table, order) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) return res.status(406).send(err);
         con.query('Select * from ?? order by ?? desc', [table, order], function(error, result) {
-            if (error) throw error;
+            if (error) return res.status(400).send(error);
             if (result.length == 0) {
                 con.release();
                 return res.sendStatus(204);
@@ -131,12 +131,12 @@ var findAllWithOrder = function(res, table, order) {
  */
 var findWithLimit = function(res, table, order, from, to) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) return res.status(406).send(err);
         con.query(
             'Select * from ?? order by ?? desc LIMIT ?, ?',
             [table, order, from, to],
             function(error, result) {
-                if (error) throw error;
+                if (error) return res.status(400).send(error);
                 if (result.length == 0) {
                     con.release();
                     return res.sendStatus(204);
@@ -156,9 +156,9 @@ var findWithLimit = function(res, table, order, from, to) {
  */
 var countRows = function(res, table) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) return res.status(406).send(err);
         con.query('Select count(*) from ??', [table], function(error, result) {
-            if (error) throw error;
+            if (error) return res.status(400).send(error);
             if (result.length == 0) {
                 con.release();
                 return res.sendStatus(204);

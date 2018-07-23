@@ -10,12 +10,12 @@ var router = require('express').Router(),
  */
 router.get('/graduatejob', function(req, res, next) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) return res.status(406).send(err);
         con.query('Select * from `graduatejob` order by `year` desc, `code` asc ', function(
             error,
             result
         ) {
-            if (error) throw error;
+            if (error) return res.status(400).send(error);
             if (result.length == 0) {
                 con.release();
                 return res.sendStatus(204);

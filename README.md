@@ -37,6 +37,10 @@ https://github.com/felixge/node-formidable
 
 https://www.w3schools.com/tags/att_a_download.asp
 
+### Tutorial?
+
+https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
+
 # TODO list
 
 -   site:
