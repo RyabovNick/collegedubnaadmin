@@ -6,6 +6,13 @@ var router = require('express').Router();
 router.use('/', require('./users'));
 router.use('/', require('./news'));
 router.use('/', require('./upload'));
+router.use('/', require('./common'));
+router.use('/', require('./eduStandarts'));
+router.use('/', require('./grants'));
+router.use('/', require('./objects'));
+router.use('/', require('./vacant'));
+router.use('/', require('./employees'));
+router.use('/', require('./education'));
 
 router.use(function(err, req, res, next) {
     if (err.name === 'ValidationError') {

@@ -45,46 +45,45 @@ https://www.w3schools.com/tags/att_a_download.asp
             -   getPhotoByNewsID +
             -   getDocsByNewsId +
             -   getNewsById +
-            -   get6news for main page
-            -   getAllNews:
-                -   getNewsCount
-                -   getNewsByPage
+            -   get6news for main page +
+            -   getAllNews: +
+                -   getNewsCount +
+                -   getNewsByPage +
         -   education + educationannotation
-        -   getAllNewsByPage
         -   pages:
             -   getById
         -   sveden:
             -   budget
                 -   link to the uni-dubna
-            -   common
+            -   common +
                 -   getMainSveden
             -   document
                 -   link to the uni-dubna
-            -   education
+            -   education +
                 -   getEduAccred
-                -   eduaccred +
+                -   eduaccred and
                     -   edupriem
                     -   eduperevod
                     -   eduop
                     -   educhislen
-            -   eduStandarts
+            -   eduStandarts +
                 -   getEduStandartDoc
-            -   employees
+            -   employees +
                 -   getHeads
                 -   getTeachingStaff
-            -   grants
+            -   grants +
                 -   getGraduateJob
                 -   getHostelInfo
                 -   getGrantsDocs
-            -   objects
+            -   objects +
                 -   getPurposeCab
                 -   getPurposeLibr
                 -   getPurposeEios
             -   paid_edu
                 -   link to the uni-dubna
-            -   struct
+            -   struct (employees)
                 -   getHeads
-            -   vacant
+            -   vacant +
                 -   getVacant
 
 *   Admin
