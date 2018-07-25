@@ -1,3 +1,6 @@
+/**
+ * Insert, Update, Delete Helpers
+ */
 var pool = require('../../../config/config'),
     async = require('async');
 
@@ -73,7 +76,6 @@ var update = function(res, table, data) {
  * @param {string} table - table name
  * @param {JSON} data - JSON (req.body)
  */
-var upda;
 var drop = function(res, table, data) {
     pool.getConnection(function(err, con) {
         if (err) throw err;
