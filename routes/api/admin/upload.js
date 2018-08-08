@@ -68,4 +68,47 @@ router.post('/admin/upload/:table', function(req, res, next) {
         });
 });
 
+/**
+ * objects purposelibr add information with fileupload
+ */
+router.post('/admin/objects/purposelibr', function(req, res, next) {
+    var table = req.params.table;
+    var form = new formidable.IncomingForm(),
+        files = {},
+        fields = {};
+
+    form.uploadDir = './files';
+    form.keepExtensions = true;
+
+    var query_result = []; //save all insert responses
+
+    form.parse(req)
+        .on('file', function(name, file) {
+            files[name] = file;
+        })
+        .on('field', function(name, field) {
+            fields[name] = field;
+        })
+        .on('error', function(err) {
+            next(err);
+        })
+        .on('end', function() {
+            pool.getConnection(function(err, con) {
+                if (err) return res.status(406).send(err);
+                con.query(
+                    'Insert into `purposelibr` (name,area,placecount,docs) values (?,?,?,?)',
+                    [fields.name, fields.area, fields.placecount, files.upload.path],
+                    function(error, result) {
+                        if (error) return res.status(406).send(error);
+                        console.log(result);
+                        query_result.push(result);
+                        con.release();
+                    }
+                );
+            });
+            res.writeHead(200, { 'content-type': 'text/plain' });
+            res.end();
+        });
+});
+
 module.exports = router;

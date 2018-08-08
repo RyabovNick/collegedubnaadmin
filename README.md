@@ -117,7 +117,7 @@ https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
             -   employees + (heads and teachers)
             -   grants + (grants + upload.js)
                 -   **purposelibr (name, link)**
-            -   objects
+            -   objects +
                 -   **objects (documents copies)**
             -   paid_edu +
                 -   nothing
