@@ -92,6 +92,17 @@ https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
 
 *   Admin
     -   API
+        -   upload_files
+        -   change_page
+        -   News:
+            -   add news
+            -   add logo
+            -   add files
+            -   add photos
+            -   delete files
+            -   delete photos
+            -   delete news
+            -   update news
         -   sveden:
             -   budget
                 -   nothing
@@ -107,5 +118,3 @@ https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
                 -   nothing
             -   struct
             -   vacant
-        *   news:
-        *   pages content

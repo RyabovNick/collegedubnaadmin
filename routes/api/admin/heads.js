@@ -10,15 +10,15 @@ var router = require('express').Router(),
  * get all from common
  */
 router
-    .route('/admin/common')
+    .route('/admin/heads')
     .post(auth.required, function(req, res, next) {
-        apiHelper.insert(res, 'common', req.body);
+        apiHelper.insert(res, 'heads', req.body);
     })
     .put(auth.required, function(req, res, next) {
-        apiHelper.update(res, 'common', req.body);
+        apiHelper.update(res, 'heads', req.body);
     })
     .delete(auth.required, function(req, res, next) {
-        apiHelper.drop(res, 'common', req.body);
+        apiHelper.drop(res, 'heads', req.body);
     });
 
 module.exports = router;
