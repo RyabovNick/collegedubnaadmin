@@ -10,15 +10,12 @@ var router = require('express').Router(),
     auth = require('../../auth');
 
 /**
- * get all from common
+ * go to upload.js
  */
 router
     .route('/admin/eduStandatrs')
     .post(auth.required, function(req, res, next) {
         apiHelper.insert(res, 'eduStandatrs', req.body);
-    })
-    .put(auth.required, function(req, res, next) {
-        apiHelper.update(res, 'eduStandatrs', req.body);
     })
     .delete(auth.required, function(req, res, next) {
         apiHelper.drop(res, 'eduStandatrs', req.body);

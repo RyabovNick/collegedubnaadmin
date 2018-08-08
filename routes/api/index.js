@@ -16,6 +16,7 @@ router.use('/', require('./admin/upload'));
 router.use('/', require('./admin/common'));
 router.use('/', require('./admin/heads'));
 router.use('/', require('./admin/eduStandarts'));
+router.use('/', require('./admin/grants'));
 
 router.use(function(err, req, res, next) {
     if (err.name === 'ValidationError') {

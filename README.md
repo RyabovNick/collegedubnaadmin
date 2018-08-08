@@ -95,8 +95,7 @@ https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
         -   upload_files
         -   change_page
         -   News:
-            -   add news
-            -   add logo
+            -   **add news and logo**
             -   add files
             -   add photos
             -   delete files
@@ -104,17 +103,23 @@ https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
             -   delete news
             -   update news
         -   sveden:
-            -   budget
+            -   budget +
                 -   nothing
-            -   common
-            -   document
+            -   common +
+            -   document +
                 -   nothing
             -   education
-            -   eduStandarts
-            -   employees
-            -   grants
+                1.  Add information about programm and years
+                2.  **Change education table (5 tuples). Adding files**
+                3.  Chislen, Priem, Perevod
+            -   eduStandarts + (upload.js)
+                -   **name, link**
+            -   employees + (heads and teachers)
+            -   grants + (grants + upload.js)
+                -   **purposelibr (name, link)**
             -   objects
-            -   paid_edu
+                -   **objects (documents copies)**
+            -   paid_edu +
                 -   nothing
-            -   struct
-            -   vacant
+            -   struct +
+            -   vacant +

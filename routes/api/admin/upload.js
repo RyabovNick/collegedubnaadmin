@@ -15,7 +15,6 @@ router.get('/upload_form', function(req, res, next) {
     res.writeHead(200, { 'content-type': 'text/html' });
     res.end(
         '<form action="/api/admin/upload/documents" enctype="multipart/form-data" method="post">' +
-            '<input type="text" name="tag"><br>' +
             '<input type="text" name="name"><br>' +
             '<input type="file" name="upload" multiple="multiple"><br>' +
             '<input type="submit" value="Upload">' +
@@ -54,8 +53,8 @@ router.post('/admin/upload/:table', function(req, res, next) {
             pool.getConnection(function(err, con) {
                 if (err) return res.status(406).send(err);
                 con.query(
-                    'Insert into ?? (tag,name,link) values (?,?,?)',
-                    [table, fields.tag, fields.name, files.upload.path],
+                    'Insert into ?? (name,link) values (?,?)',
+                    [table, fields.name, files.upload.path],
                     function(error, result) {
                         if (error) return res.status(406).send(error);
                         console.log(result);
