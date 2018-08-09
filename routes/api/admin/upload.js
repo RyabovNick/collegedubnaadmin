@@ -14,7 +14,7 @@ var router = require('express').Router(),
 router.get('/upload_form', function(req, res, next) {
     res.writeHead(200, { 'content-type': 'text/html' });
     res.end(
-        '<form action="/api/admin/upload/documents" enctype="multipart/form-data" method="post">' +
+        '<form action="/api/admin/education/upload/42/opMain" enctype="multipart/form-data" method="post">' +
             '<input type="text" name="name"><br>' +
             '<input type="file" name="upload" multiple="multiple"><br>' +
             '<input type="submit" value="Upload">' +
@@ -98,6 +98,50 @@ router.post('/admin/objects/purposelibr', function(req, res, next) {
                 con.query(
                     'Insert into `purposelibr` (name,area,placecount,docs) values (?,?,?,?)',
                     [fields.name, fields.area, fields.placecount, files.upload.path],
+                    function(error, result) {
+                        if (error) return res.status(406).send(error);
+                        console.log(result);
+                        query_result.push(result);
+                        con.release();
+                    }
+                );
+            });
+            res.writeHead(200, { 'content-type': 'text/plain' });
+            res.end();
+        });
+});
+
+/**
+ * eduOP file upload
+ */
+router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
+    var tuple = req.params.tuple;
+    var row = req.params.row;
+    var form = new formidable.IncomingForm(),
+        files = {},
+        fields = {};
+
+    form.uploadDir = './files';
+    form.keepExtensions = true;
+
+    var query_result = []; //save all insert responses
+
+    form.parse(req)
+        .on('file', function(name, file) {
+            files[name] = file;
+        })
+        .on('field', function(name, field) {
+            fields[name] = field;
+        })
+        .on('error', function(err) {
+            next(err);
+        })
+        .on('end', function() {
+            pool.getConnection(function(err, con) {
+                if (err) return res.status(406).send(err);
+                con.query(
+                    'Update `eduop` set ?? = ? where `id` = ?',
+                    [tuple, files.upload.path, row],
                     function(error, result) {
                         if (error) return res.status(406).send(error);
                         console.log(result);
