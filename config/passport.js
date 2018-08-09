@@ -10,6 +10,7 @@ passport.use(
             passwordField: 'user[password]',
         },
         function(email, password, done) {
+            console.log(email, password);
             pool.getConnection(function(err, con) {
                 if (err) return res.status(406).send(err);
                 con.query(

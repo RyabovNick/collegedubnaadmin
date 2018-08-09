@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'test';
+/*process.env.NODE_ENV = 'test';
 
 let chai = require('chai');
 let chaihttp = require('chai-http');
@@ -113,3 +113,4 @@ describe('Users', () => {
 });
 
 requester.close();
+*/
