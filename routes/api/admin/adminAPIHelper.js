@@ -5,6 +5,27 @@ var pool = require('../../../config/config'),
     async = require('async');
 
 /**
+ * Get all
+ * @param {*} res
+ * @param {*} tablename
+ */
+var select = function(res, tablename) {
+    pool.getConnection(function(err, con) {
+        if (err) return res.status(406).send(err);
+        con.query('Select * from ??', [tablename], function(error, result) {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                con.release();
+                return res.sendStatus(204);
+            } else {
+                con.release();
+                return res.send(result);
+            }
+        });
+    });
+};
+
+/**
  * Insert data to table
  * @param {response} res - send response from API
  * @param {string} table - table name
@@ -93,6 +114,7 @@ var drop = function(res, table, data) {
 };
 
 module.exports = {
+    select: select,
     insert: insert,
     drop: drop,
     update: update,

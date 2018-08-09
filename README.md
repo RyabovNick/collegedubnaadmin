@@ -108,7 +108,7 @@ https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
             -   common +
             -   document +
                 -   nothing
-            -   education
+            -   education +
                 1.  Add information about programm and years
                 2.  **Change education table (5 tuples). Adding files**
                 3.  Chislen, Priem, Perevod

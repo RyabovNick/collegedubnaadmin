@@ -19,6 +19,7 @@ router.use('/', require('./admin/employees'));
 router.use('/', require('./admin/grants'));
 router.use('/', require('./admin/heads'));
 router.use('/', require('./admin/objects'));
+router.use('/', require('./admin/pages'));
 router.use('/', require('./admin/upload'));
 router.use('/', require('./admin/vacant'));
 
