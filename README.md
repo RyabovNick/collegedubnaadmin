@@ -93,8 +93,8 @@ https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
 *   Admin
     -   API
         -   upload_files
-        -   change_page
-        -   News:
+        -   change_page +
+        -   News: +
             -   **add news and logo**
             -   add files
             -   add photos
