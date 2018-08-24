@@ -14,14 +14,14 @@ var router = require('express').Router(),
 router.get('/upload_form', function(req, res, next) {
     res.writeHead(200, { 'content-type': 'text/html' });
     res.end(
-        '<form action="/api/admin/upload/news/newsdocs" enctype="multipart/form-data" method="post">' +
+        '<form action="/api/admin/upload_news/newsdocs" enctype="multipart/form-data" method="post">' +
             '<input type="text" name="idnews"><br>' +
-            '<input type="text" name="name"><br>' +
             '<input type="file" name="upload" multiple="multiple"><br>' +
             '<input type="submit" value="Upload">' +
             '</form>'
     );
 });
+
 
 /**
  * Upload API
@@ -156,10 +156,11 @@ router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
         });
 });
 
+
 /**
  * Add news
  */
-router.post('/admin/upload/news', function(req, res, next) {
+router.post('/admin/upload_news', function(req, res, next) {
     var form = new formidable.IncomingForm(),
         files = {},
         fields = {};
@@ -172,49 +173,59 @@ router.post('/admin/upload/news', function(req, res, next) {
     form.parse(req)
         .on('file', function(name, file) {
             files[name] = file;
+			console.log("file: " + file);
         })
         .on('field', function(name, field) {
             fields[name] = field;
+			console.log("field: " + fields);
         })
         .on('error', function(err) {
             next(err);
         })
         .on('end', function() {
+			console.log(files);
             pool.getConnection(function(err, con) {
-                if (err) return res.status(406).send(err);
+                if (err) { console.log(1, err); return res.status(406).send(err) };
                 con.query(
                     'Insert into `news` (title,content,date_now,logo) values (?,?,?,?)',
                     [fields.title, fields.content, fields.date_now, files.upload.path],
                     function(error, result) {
-                        if (error) return res.status(406).send(error);
+                        if (error) { console.log(2, error); return res.status(406).send(error) };
                         console.log(result);
                         query_result.push(result);
                         con.release();
+						res.send(result);
                     }
                 );
             });
-            res.writeHead(200, { 'content-type': 'text/plain' });
-            res.end();
+            //res.writeHead(200, { 'content-type': 'text/plain' });
+            //res.end();
         });
 });
 
-router.post('/admin/upload/news/:table', function(req, res, next) {
+
+router.post('/admin/upload_news/:table', function(req, res, next) {
     var table = req.params.table;
     var form = new formidable.IncomingForm(),
         files = {},
-        fields = {};
+        fields = {},
+		allFiles = [];
 
     form.uploadDir = './files';
     form.keepExtensions = true;
+	form.multiples = true;
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
         .on('file', function(name, file) {
             files[name] = file;
+			allFiles.push({name, file});
+			console.log("file: " + file);
         })
         .on('field', function(name, field) {
             fields[name] = field;
+			console.log("field: " + fields);
         })
         .on('error', function(err) {
             next(err);
@@ -225,16 +236,22 @@ router.post('/admin/upload/news/:table', function(req, res, next) {
             }
             pool.getConnection(function(err, con) {
                 if (err) return res.status(406).send(err);
-                con.query(
+				/*array1.forEach(function(element) {
+				  console.log(element);
+				});
+				*/
+				allFiles.forEach(function(el) {					
+					con.query(
                     'Insert into ?? (idnews,name,link) values (?,?,?)',
-                    [table, fields.idnews, fields.name, files.upload.path],
+                    [table, fields.idnews, el.file.name, el.file.path],
                     function(error, result) {
                         if (error) return res.status(406).send(error);
                         console.log(result);
                         query_result.push(result);
-                        con.release();
                     }
                 );
+				});
+				con.release();
             });
             res.writeHead(200, { 'content-type': 'text/plain' });
             res.end();

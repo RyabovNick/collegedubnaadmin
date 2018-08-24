@@ -79,7 +79,7 @@ var update = function(res, table, data) {
             error,
             result
         ) {
-            if (error) return res.status(400).send(error);
+            if (error) {console.log(error); return res.status(400).send(error)};
             if (result.length == 0) {
                 con.release();
                 return res.sendStatus(204);

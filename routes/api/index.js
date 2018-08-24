@@ -22,6 +22,7 @@ router.use('/', require('./admin/objects'));
 router.use('/', require('./admin/pages'));
 router.use('/', require('./admin/upload'));
 router.use('/', require('./admin/vacant'));
+router.use('/', require('./admin/news'));
 
 router.use(function(err, req, res, next) {
     if (err.name === 'ValidationError') {
