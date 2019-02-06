@@ -2,13 +2,13 @@
  * API for registration, auth and getting new token
  * pool - connection
  */
-var router = require('express').Router(),
-    passport = require('passport'),
-    pool = require('../../config/config'),
-    crypto = require('crypto'),
-    jwt = require('jsonwebtoken'),
-    secret = require('../../config').secret,
-    auth = require('../auth.js');
+const router = require('express').Router();
+const passport = require('passport');
+const pool = require('../../config/config');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const secret = process.env.SECRET_JWT;
+const auth = require('../auth.js');
 
 /**
  * Auth
@@ -39,12 +39,8 @@ router.get('/user', auth.required, function(req, res, next) {
  * if false - send error
  */
 router.post('/user/login', function(req, res, next) {
-    if (!req.body.user.email) {
-        return res.status(422).json({ errors: { email: 'Не может быть пустым' } });
-    }
-
-    if (!req.body.user.password) {
-        return res.status(422).json({ errors: { password: 'Не может быть пустым' } });
+    if (!req.body.user.email || !req.body.user.password) {
+        return res.status(400).json({ message: 'Логин или пароль не может быть пустым' });
     }
 
     passport.authenticate('local', { session: false }, function(err, user, info) {
@@ -53,7 +49,6 @@ router.post('/user/login', function(req, res, next) {
         }
 
         if (user) {
-            var token = generateJWT(user);
             return res.json({ user: toAuthJSON(user) });
         } else {
             return res.status(422).json(info);
@@ -66,7 +61,7 @@ router.post('/user/login', function(req, res, next) {
  */
 router.post('/users', function(req, res, next) {
     if (!req.body.user.username || !req.body.user.email || !req.body.user.password) {
-        return res.status(422).json({ errors: { 'email or password': 'Не может быть пустым' } });
+        return res.status(422).json({ message: 'Поля не могут быть пустыми' });
     }
 
     var username = req.body.user.username;

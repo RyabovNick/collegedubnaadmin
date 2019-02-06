@@ -1,11 +1,11 @@
 process.env.NODE_ENV = 'test';
 
-let chai = require('chai');
-let chaihttp = require('chai-http');
-let app = require('../app');
-let should = chai.should();
-let pool = require('../config/config_test');
-let token = require('../config/token');
+const chai = require('chai');
+const chaihttp = require('chai-http');
+const app = require('../app');
+const should = chai.should();
+const pool = require('../config/config');
+const token = require('../config/token');
 
 chai.use(chaihttp);
 

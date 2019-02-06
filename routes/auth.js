@@ -1,8 +1,8 @@
 /**
  * auth.required to the page without public accces
  */
-var jwt = require('express-jwt'),
-    secret = require('../config').secret;
+const jwt = require('express-jwt');
+const secret = process.env.SECRET_JWT;
 
 /**
  * Find token in header and return authorization part

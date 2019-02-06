@@ -2,7 +2,7 @@
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * apiHelper get response, tablename
  * and send response to server
- * Is it rigth? Fucking doubt, need to do it right
+ * Is it right? Fucking doubt, need to do it right
  */
 var pool = require('../../config/config'),
     async = require('async');

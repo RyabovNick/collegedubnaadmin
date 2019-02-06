@@ -1,18 +1,19 @@
-var express = require('express'),
-    bodyParser = require('body-parser'),
-    session = require('express-session'),
-    cors = require('cors'),
-    passport = require('passport'),
-    errorhandler = require('errorhandler');
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const router = express.Router();
+const cors = require('cors');
+const passport = require('passport');
+const errorhandler = require('errorhandler');
 
-var isProduction = process.env.NODE_ENV === 'development';
+const isProduction = process.env.NODE_ENV === 'development';
 
-var app = express();
+const app = express();
 
 app.use(cors());
 
 //Express config
-app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -21,8 +22,8 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(
     session({
-        secret: 'conduit',
-        cookit: { maxAge: 60000 },
+        secret: process.env.SECRET,
+        cookit: { maxAge: 60 * 24 * 60 * 60 * 1000 },
         resave: false,
         saveUninitialized: false,
     })
@@ -76,3 +77,5 @@ app.use(function(err, req, res, next) {
 var server = app.listen(process.env.PORT || 3000, function() {
     console.log('Listening on port ' + server.address().port);
 });
+
+module.exports = router;

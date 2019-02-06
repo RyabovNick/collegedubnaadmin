@@ -7,10 +7,9 @@
  *
  * delete news and docs/photos
  */
-var router = require('express').Router(),
-    apiHelper = require('./adminAPIHelper'),
-    pool = require('../../../config/config'),
-    auth = require('../../auth');
+const router = require('express').Router();
+const apiHelper = require('./adminAPIHelper');
+const auth = require('../../auth');
 
 /**
  * get all from common

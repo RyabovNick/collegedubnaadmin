@@ -1,10 +1,10 @@
 process.env.NODE_ENV = 'test';
 
-let chai = require('chai');
-let chaihttp = require('chai-http');
-let app = require('../app');
-let should = chai.should();
-let pool = require('../config/config_test');
+const chai = require('chai');
+const chaihttp = require('chai-http');
+const app = require('../app');
+const should = chai.should();
+const pool = require('../config/config');
 
 chai.use(chaihttp);
 
@@ -16,7 +16,7 @@ describe('News', () => {
             requester.get('/api/news').end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('array');
-                res.body.length.should.be.eql(142);
+                res.body.length.should.be.eql(143);
                 done();
             });
         });

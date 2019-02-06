@@ -1,10 +1,9 @@
 /**
  * Create, Update, Delete
  */
-var router = require('express').Router(),
-    apiHelper = require('./adminAPIHelper'),
-    pool = require('../../../config/config'),
-    auth = require('../../auth');
+const router = require('express').Router();
+const apiHelper = require('./adminAPIHelper');
+const auth = require('../../auth');
 
 /**
  * vacant

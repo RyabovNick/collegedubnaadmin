@@ -22,7 +22,6 @@ router.get('/upload_form', function(req, res, next) {
     );
 });
 
-
 /**
  * Upload API
  *
@@ -156,7 +155,6 @@ router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
         });
 });
 
-
 /**
  * Add news
  */
@@ -173,28 +171,34 @@ router.post('/admin/upload_news', function(req, res, next) {
     form.parse(req)
         .on('file', function(name, file) {
             files[name] = file;
-			console.log("file: " + file);
+            console.log('file: ' + file);
         })
         .on('field', function(name, field) {
             fields[name] = field;
-			console.log("field: " + fields);
+            console.log('field: ' + fields);
         })
         .on('error', function(err) {
             next(err);
         })
         .on('end', function() {
-			console.log(files);
+            console.log(files);
             pool.getConnection(function(err, con) {
-                if (err) { console.log(1, err); return res.status(406).send(err) };
+                if (err) {
+                    console.log(1, err);
+                    return res.status(406).send(err);
+                }
                 con.query(
                     'Insert into `news` (title,content,date_now,logo) values (?,?,?,?)',
                     [fields.title, fields.content, fields.date_now, files.upload.path],
                     function(error, result) {
-                        if (error) { console.log(2, error); return res.status(406).send(error) };
+                        if (error) {
+                            console.log(2, error);
+                            return res.status(406).send(error);
+                        }
                         console.log(result);
                         query_result.push(result);
                         con.release();
-						res.send(result);
+                        res.send(result);
                     }
                 );
             });
@@ -203,29 +207,31 @@ router.post('/admin/upload_news', function(req, res, next) {
         });
 });
 
-
+/**
+ * upload docs / photos to news
+ */
 router.post('/admin/upload_news/:table', function(req, res, next) {
     var table = req.params.table;
     var form = new formidable.IncomingForm(),
         files = {},
         fields = {},
-		allFiles = [];
+        allFiles = [];
 
     form.uploadDir = './files';
     form.keepExtensions = true;
-	form.multiples = true;
+    form.multiples = true;
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
         .on('file', function(name, file) {
             files[name] = file;
-			allFiles.push({name, file});
-			console.log("file: " + file);
+            allFiles.push({ name, file });
+            console.log('file: ' + file);
         })
         .on('field', function(name, field) {
             fields[name] = field;
-			console.log("field: " + fields);
+            console.log('field: ' + fields);
         })
         .on('error', function(err) {
             next(err);
@@ -236,22 +242,22 @@ router.post('/admin/upload_news/:table', function(req, res, next) {
             }
             pool.getConnection(function(err, con) {
                 if (err) return res.status(406).send(err);
-				/*array1.forEach(function(element) {
+                /*array1.forEach(function(element) {
 				  console.log(element);
 				});
 				*/
-				allFiles.forEach(function(el) {					
-					con.query(
-                    'Insert into ?? (idnews,name,link) values (?,?,?)',
-                    [table, fields.idnews, el.file.name, el.file.path],
-                    function(error, result) {
-                        if (error) return res.status(406).send(error);
-                        console.log(result);
-                        query_result.push(result);
-                    }
-                );
-				});
-				con.release();
+                allFiles.forEach(function(el) {
+                    con.query(
+                        'Insert into ?? (idnews,name,link) values (?,?,?)',
+                        [table, fields.idnews, el.file.name, el.file.path],
+                        function(error, result) {
+                            if (error) return res.status(406).send(error);
+                            console.log(result);
+                            query_result.push(result);
+                        }
+                    );
+                });
+                con.release();
             });
             res.writeHead(200, { 'content-type': 'text/plain' });
             res.end();

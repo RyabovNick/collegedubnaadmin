@@ -1,9 +1,8 @@
 /**
  * API for news
  */
-var router = require('express').Router(),
-    apiHelper = require('./apiHelper'),
-    pool = require('../../config/config');
+const router = require('express').Router();
+const apiHelper = require('./apiHelper');
 
 /**
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
