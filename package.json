@@ -6,6 +6,7 @@
     "scripts": {
         "start": "nodemon ./app.js",
         "test": "mocha",
+        "test_get": "mocha -g 'test all get api'",
         "docs": "./node_modules/.bin/esdoc"
     },
     "repository": {
