@@ -39,6 +39,8 @@ const news_id = '/news/298';
 const news_id_photo = '/news/298/photo';
 const news_id_docs = '/news/298/docs';
 const news_page = '/news/page/1';
+//pages
+const pages_id = '/pages/1';
 
 describe('test all get api', () => {
     describe('/GET all common rows', () => {
@@ -224,6 +226,15 @@ describe('test all get api', () => {
     describe('/GET all news_page rows', () => {
         it('it should completed with status 200', (done) => {
             requester.get(news_page).end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+        });
+    });
+
+    describe('/GET all pages_id rows', () => {
+        it('it should completed with status 200', (done) => {
+            requester.get(pages_id).end((err, res) => {
                 res.should.have.status(200);
                 done();
             });
