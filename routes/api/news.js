@@ -3,6 +3,7 @@
  */
 const router = require('express').Router();
 const apiHelper = require('./apiHelper');
+const pool = require('../../config/config');
 
 /**
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -48,6 +49,17 @@ router.get('/news/page/:page', function(req, res, next) {
         to = 20;
     }
     apiHelper.findWithLimit(res, 'news', 'date_now', from, to);
+});
+
+router.get('/newscount', (req, res, next) => {
+    pool.query('Select count(*) as news_count from `news`', (error, result) => {
+        if (error) return res.status(400).send(error);
+        if (result.length == 0) {
+            return res.sendStatus(204);
+        } else {
+            return res.send(result);
+        }
+    });
 });
 
 module.exports = router;

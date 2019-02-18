@@ -39,6 +39,8 @@ router.get('/user', auth.required, function(req, res, next) {
  * if false - send error
  */
 router.post('/user/login', function(req, res, next) {
+    console.log('req.body: ', req.body);
+
     if (!req.body.user.email || !req.body.user.password) {
         return res.status(400).json({ message: 'Логин или пароль не может быть пустым' });
     }
@@ -51,6 +53,7 @@ router.post('/user/login', function(req, res, next) {
         if (user) {
             return res.json({ user: toAuthJSON(user) });
         } else {
+            console.log('info: ', info);
             return res.status(422).json(info);
         }
     })(req, res, next);
@@ -60,19 +63,18 @@ router.post('/user/login', function(req, res, next) {
  * Registration API (not using in college, because 1 user)
  */
 router.post('/users', function(req, res, next) {
-    if (!req.body.user.username || !req.body.user.email || !req.body.user.password) {
+    if (!req.body.user.email || !req.body.user.password) {
         return res.status(422).json({ message: 'Поля не могут быть пустыми' });
     }
 
-    var username = req.body.user.username;
     var email = req.body.user.email;
     var password = setPassword(req.body.user.password);
 
     pool.getConnection(function(err, con) {
         if (err) throw err;
         con.query(
-            'Insert into `users` (username, email, hash, salt) values (?,?,?,?)',
-            [username, email, password[0], password[1]],
+            'Insert into `users` (email, hash, salt) values (?,?,?)',
+            [email, password[0], password[1]],
             function(error, result) {
                 if (error) throw error;
                 res.send(result);

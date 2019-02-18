@@ -14,7 +14,7 @@ passport.use(
             pool.getConnection(function(err, con) {
                 if (err) return res.status(406).send(err);
                 con.query(
-                    'Select id, email, hash, salt from `users` where username = ?',
+                    'Select id, email, hash, salt from `users` where email = ?',
                     [email],
                     function(error, result) {
                         if (result.length != 0) {
@@ -26,17 +26,17 @@ passport.use(
                                     return done(null, user);
                                 } else {
                                     return done(null, false, {
-                                        errors: { 'email or password': 'не верно' },
+                                        message: 'Неверный логин или пароль',
                                     });
                                 }
                             } else {
                                 return done(null, false, {
-                                    errors: { 'email or password': 'не верно' },
+                                    message: 'Неверный логин или пароль',
                                 });
                             }
                         } else {
                             return done(null, false, {
-                                errors: { 'email or password': 'не верно' },
+                                message: 'Неверный логин или пароль',
                             });
                         }
                     }

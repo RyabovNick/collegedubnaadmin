@@ -62,32 +62,42 @@ var insert = function(res, table, data) {
  * @param {JSON} data - JSON (req.body)
  */
 var update = function(res, table, data) {
-    var keys = Object.keys(data),
+    let keys = Object.keys(data),
         values = Object.values(data);
-
+    console.log(data.id);
     //prepared string to update query
     //short if for last ','
-    var prepared_string = '';
-    for (i = 0; i < keys.length; i++) {
-        prepared_string += keys[i] + ' = ' + "'" + values[i] + "'";
-        prepared_string += i == keys.length - 1 ? '' : ',';
-    }
+    let prepared_string = '';
 
     pool.getConnection(function(err, con) {
         if (err) throw err;
-        con.query('UPDATE ?? SET ' + prepared_string + ' where id = ?', [table, data.id], function(
-            error,
-            result
-        ) {
-            if (error) {console.log(error); return res.status(400).send(error)};
-            if (result.length == 0) {
-                con.release();
-                return res.sendStatus(204);
-            } else {
-                con.release();
-                return res.send(result);
+        for (i = 0; i < keys.length; i++) {
+            if (keys[i] === 'id') {
+                i++;
             }
-        });
+            prepared_string += keys[i] + ' = ' + con.escape(values[i]);
+            prepared_string += i == keys.length - 1 ? '' : ',';
+        }
+        console.log('prepared_string: ', prepared_string);
+
+        con.query(
+            `UPDATE ?? SET ${prepared_string} where id = ${con.escape(data.id)}`,
+            [table],
+            function(error, result) {
+                console.log('result: ', result);
+                if (error) {
+                    console.log(error);
+                    return res.status(400).send(error);
+                }
+                if (result.length == 0) {
+                    con.release();
+                    return res.sendStatus(204);
+                } else {
+                    con.release();
+                    return res.send(result);
+                }
+            }
+        );
     });
 };
 
