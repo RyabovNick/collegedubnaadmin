@@ -10,6 +10,7 @@
 const router = require('express').Router();
 const apiHelper = require('./adminAPIHelper');
 const auth = require('../../auth');
+const pool = require('../../../config/config');
 
 /**
  * get all from common
@@ -22,6 +23,20 @@ router
     .delete(auth.required, function(req, res, next) {
         apiHelper.drop(res, 'news', req.body);
     });
+
+router.route('/admin/listnews').get(auth.required, (req, res, next) => {
+    pool.query('Select id, title, date_now from `news` order by date_now desc', function(
+        error,
+        result
+    ) {
+        if (error) return res.status(400).send(error);
+        if (result.length == 0) {
+            return res.sendStatus(204);
+        } else {
+            return res.send(result);
+        }
+    });
+});
 
 router
     .route('/admin/newsdocs')
