@@ -60,8 +60,40 @@ router
         apiHelper.drop(res, 'eduaccred', req.body);
     });
 
+router.route('/admin/education/eduop').get(auth.required, (req, res, next) => {
+    pool.query(
+        'SELECT  `eduaccred`.`id` AS  `accredId` ,  `eduaccred`.`eduCode` ,  `eduaccred`.`eduName` ,  `eduop`.`year` ,  `eduop`.`id` AS  `eduopId` ,  `opMain` ,  `educationPlan` ,  `educationAnnotation` , `educationShedule` ,  `methodology` ,  `eduPr`' +
+            'FROM  `eduaccred` ' +
+            'LEFT JOIN  `eduop` ON  `eduaccred`.`id` =  `eduop`.`id_eduCode` ' +
+            'ORDER BY `eduop`.`year` desc, `eduaccred`.`eduCode` asc',
+        (error, result) => {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                return res.sendStatus(204);
+            } else {
+                return res.send(result);
+            }
+        }
+    );
+});
+
 router
     .route('/admin/education/educhislen')
+    .get(auth.required, (req, res, next) => {
+        pool.query(
+            'SELECT `eduaccred`.`id` as `id_eduCode`, `eduaccred`.`eduCode` ,  `eduaccred`.`eduName` , `educhislen`.`id` as `id`,  `numberBFpriem` ,  `numberBRpriem` ,  `numberBMpriem` ,  `numberPpriem` ' +
+                ' FROM  `eduaccred` ' +
+                ' LEFT JOIN  `educhislen` ON  `eduaccred`.`id` =  `educhislen`.`id_eduCode` ',
+            (error, result) => {
+                if (error) return res.status(400).send(error);
+                if (result.length == 0) {
+                    return res.sendStatus(204);
+                } else {
+                    return res.send(result);
+                }
+            }
+        );
+    })
     .post(auth.required, function(req, res, next) {
         apiHelper.insert(res, 'educhislen', req.body);
     })
@@ -74,6 +106,21 @@ router
 
 router
     .route('/admin/education/edupriem')
+    .get(auth.required, (req, res, next) => {
+        pool.query(
+            'SELECT `eduaccred`.`id` as `id_eduCode`, `eduaccred`.`eduCode` ,  `eduaccred`.`eduName` , `edupriem`.`id` as `id`,  `numberBFpriem` ,  `numberBRpriem` ,  `numberBMpriem` ,  `numberPpriem` ' +
+                ' FROM  `eduaccred` ' +
+                ' LEFT JOIN  `edupriem` ON  `eduaccred`.`id` =  `edupriem`.`id_eduCode` ',
+            (error, result) => {
+                if (error) return res.status(400).send(error);
+                if (result.length == 0) {
+                    return res.sendStatus(204);
+                } else {
+                    return res.send(result);
+                }
+            }
+        );
+    })
     .post(auth.required, function(req, res, next) {
         apiHelper.insert(res, 'edupriem', req.body);
     })
@@ -86,6 +133,21 @@ router
 
 router
     .route('/admin/education/eduperevod')
+    .get(auth.required, (req, res, next) => {
+        pool.query(
+            'SELECT `eduaccred`.`id` as `id_eduCode`, `eduaccred`.`eduCode` ,  `eduaccred`.`eduName` , `eduperevod`.`id` as `id`,  `numberOutPerevod` ,  `numberToPerevod` ,  `numberResPerevod` ,  `numberExpPerevod` ' +
+                ' FROM  `eduaccred` ' +
+                ' LEFT JOIN  `eduperevod` ON  `eduaccred`.`id` =  `eduperevod`.`id_eduCode` ',
+            (error, result) => {
+                if (error) return res.status(400).send(error);
+                if (result.length == 0) {
+                    return res.sendStatus(204);
+                } else {
+                    return res.send(result);
+                }
+            }
+        );
+    })
     .post(auth.required, function(req, res, next) {
         apiHelper.insert(res, 'eduperevod', req.body);
     })

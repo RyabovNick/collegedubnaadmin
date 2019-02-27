@@ -121,7 +121,7 @@ router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
         files = {},
         fields = {};
 
-    form.uploadDir = './files';
+    form.uploadDir = './files/test';
     form.keepExtensions = true;
 
     var query_result = []; //save all insert responses
@@ -137,6 +137,7 @@ router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
             next(err);
         })
         .on('end', function() {
+            console.log('files.upload: ', files.upload);
             pool.getConnection(function(err, con) {
                 if (err) return res.status(406).send(err);
                 con.query(
