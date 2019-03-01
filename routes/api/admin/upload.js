@@ -121,7 +121,7 @@ router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
         files = {},
         fields = {};
 
-    form.uploadDir = './files/test';
+    form.uploadDir = './files';
     form.keepExtensions = true;
 
     var query_result = []; //save all insert responses
