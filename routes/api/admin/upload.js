@@ -6,7 +6,8 @@ var router = require('express').Router(),
     pool = require('../../../config/config'),
     formidable = require('formidable'),
     util = require('util'),
-    os = require('os');
+    os = require('os'),
+    fse = require('fs-extra');
 
 /**
  * upload form for testing
@@ -34,12 +35,16 @@ router.post('/admin/upload/:table', function(req, res, next) {
         files = {},
         fields = {};
 
-    form.uploadDir = './files';
+    form.uploadDir = `../collegedubna/static/files/${table}/`;
     form.keepExtensions = true;
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
+        // переименовывание файла (без генерации уникального имени)
+        .on('fileBegin', function(name, file) {
+            file.path = form.uploadDir + file.name;
+        })
         .on('file', function(name, file) {
             files[name] = file;
         })
@@ -54,17 +59,16 @@ router.post('/admin/upload/:table', function(req, res, next) {
                 if (err) return res.status(406).send(err);
                 con.query(
                     'Insert into ?? (name,link) values (?,?)',
-                    [table, fields.name, files.upload.path],
+                    [table, fields.name, `${table}/${files.upload.name}`],
                     function(error, result) {
                         if (error) return res.status(406).send(error);
                         console.log(result);
                         query_result.push(result);
                         con.release();
+                        res.send(result);
                     }
                 );
             });
-            res.writeHead(200, { 'content-type': 'text/plain' });
-            res.end();
         });
 });
 
@@ -77,12 +81,16 @@ router.post('/admin/objects/purposelibr', function(req, res, next) {
         files = {},
         fields = {};
 
-    form.uploadDir = './files';
+    form.uploadDir = '../collegedubna/static/files/';
     form.keepExtensions = true;
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
+        // переименовывание файла (без генерации уникального имени)
+        .on('fileBegin', function(name, file) {
+            file.path = form.uploadDir + file.name;
+        })
         .on('file', function(name, file) {
             files[name] = file;
         })
@@ -121,12 +129,16 @@ router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
         files = {},
         fields = {};
 
-    form.uploadDir = './files';
+    form.uploadDir = '../collegedubna/static/files/';
     form.keepExtensions = true;
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
+        // переименовывание файла (без генерации уникального имени)
+        .on('fileBegin', function(name, file) {
+            file.path = form.uploadDir + file.name;
+        })
         .on('file', function(name, file) {
             files[name] = file;
         })
@@ -164,47 +176,64 @@ router.post('/admin/upload_news', function(req, res, next) {
         files = {},
         fields = {};
 
-    form.uploadDir = './files';
+    dir = '../collegedubna/static/files/';
     form.keepExtensions = true;
+
+    let date = new Date();
+    const dateNow =
+        ('0' + date.getDate()).slice(-2) +
+        ('0' + (date.getMonth() + 1)).slice(-2) +
+        String(date.getFullYear()).substring(2);
+    console.log('dateNow: ', dateNow);
+
+    fse.ensureDir(dir + dateNow, (err) => {
+        console.log(err);
+    });
+
+    form.uploadDir = dir + dateNow;
+    console.log('form.uploadDir: ', form.uploadDir);
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
+        // переименовывание файла (без генерации уникального имени)
+        .on('fileBegin', function(name, file) {
+            console.log('form.uploadDir 2 : ', form.uploadDir);
+            file.path = form.uploadDir + '/' + file.name;
+        })
         .on('file', function(name, file) {
             files[name] = file;
-            console.log('file: ' + file);
         })
         .on('field', function(name, field) {
             fields[name] = field;
-            console.log('field: ' + fields);
         })
         .on('error', function(err) {
             next(err);
         })
         .on('end', function() {
-            console.log(files);
             pool.getConnection(function(err, con) {
                 if (err) {
-                    console.log(1, err);
                     return res.status(406).send(err);
                 }
+                console.log('files.upload: ', files.upload);
                 con.query(
                     'Insert into `news` (title,content,date_now,logo) values (?,?,?,?)',
-                    [fields.title, fields.content, fields.date_now, files.upload.path],
+                    [
+                        fields.title,
+                        fields.content,
+                        fields.date_now,
+                        `${dateNow}/${files.upload.name}`,
+                    ],
                     function(error, result) {
                         if (error) {
-                            console.log(2, error);
                             return res.status(406).send(error);
                         }
-                        console.log(result);
                         query_result.push(result);
                         con.release();
                         res.send(result);
                     }
                 );
             });
-            //res.writeHead(200, { 'content-type': 'text/plain' });
-            //res.end();
         });
 });
 
@@ -218,13 +247,17 @@ router.post('/admin/upload_news/:table', function(req, res, next) {
         fields = {},
         allFiles = [];
 
-    form.uploadDir = './files';
+    form.uploadDir = '../collegedubna/static/files/';
     form.keepExtensions = true;
     form.multiples = true;
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
+        // переименовывание файла (без генерации уникального имени)
+        .on('fileBegin', function(name, file) {
+            file.path = form.uploadDir + file.name;
+        })
         .on('file', function(name, file) {
             files[name] = file;
             allFiles.push({ name, file });

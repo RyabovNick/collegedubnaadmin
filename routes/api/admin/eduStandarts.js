@@ -12,12 +12,12 @@ const auth = require('../../auth');
  * go to upload.js
  */
 router
-    .route('/admin/eduStandatrs')
+    .route('/admin/eduStandarts')
     .post(auth.required, function(req, res, next) {
-        apiHelper.insert(res, 'eduStandatrs', req.body);
+        apiHelper.insert(res, 'edustandartdoc', req.body);
     })
     .delete(auth.required, function(req, res, next) {
-        apiHelper.drop(res, 'eduStandatrs', req.body);
+        apiHelper.drop(res, 'edustandartdoc', req.body);
     });
 
 module.exports = router;
