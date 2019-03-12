@@ -74,7 +74,7 @@ router.post('/admin/upload/:table', function(req, res, next) {
 
 /**
  * objects purposelibr add information with fileupload
- */
+ 
 router.post('/admin/objects/purposelibr', function(req, res, next) {
     var table = req.params.table;
     var form = new formidable.IncomingForm(),
@@ -111,14 +111,13 @@ router.post('/admin/objects/purposelibr', function(req, res, next) {
                         console.log(result);
                         query_result.push(result);
                         con.release();
+                        res.end();
                     }
                 );
             });
-            res.writeHead(200, { 'content-type': 'text/plain' });
-            res.end();
         });
 });
-
+*/
 /**
  * eduOP file upload
  */
@@ -163,8 +162,6 @@ router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
                     }
                 );
             });
-            res.writeHead(200, { 'content-type': 'text/plain' });
-            res.end();
         });
 });
 
