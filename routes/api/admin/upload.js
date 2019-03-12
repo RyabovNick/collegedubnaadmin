@@ -300,7 +300,7 @@ router.post('/admin/upload_news/:table/:idnews', function(req, res, next) {
                     console.log('el.file.path: ', el.file.path);
                     con.query(
                         'Insert into ?? (idnews,name,link) values (?,?,?)',
-                        [table, idnews, el.file.name, el.file.path],
+                        [table, idnews, el.file.name, `${dateNow}/${files.upload.name}`],
 
                         function(error, result) {
                             if (error) return res.status(406).send(error);
