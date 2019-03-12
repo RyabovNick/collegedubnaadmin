@@ -237,23 +237,38 @@ router.post('/admin/upload_news', function(req, res, next) {
 /**
  * upload docs / photos to news
  */
-router.post('/admin/upload_news/:table', function(req, res, next) {
+router.post('/admin/upload_news/:table/:idnews', function(req, res, next) {
     var table = req.params.table;
+    var idnews = req.params.idnews;
     var form = new formidable.IncomingForm(),
         files = {},
         fields = {},
         allFiles = [];
 
-    form.uploadDir = '../collegedubna/static/files/';
+    dir = '../collegedubna/static/files/';
     form.keepExtensions = true;
     form.multiples = true;
+
+    let date = new Date();
+    const dateNow =
+        ('0' + date.getDate()).slice(-2) +
+        ('0' + (date.getMonth() + 1)).slice(-2) +
+        String(date.getFullYear()).substring(2);
+    console.log('dateNow: ', dateNow);
+
+    fse.ensureDir(dir + dateNow, (err) => {
+        console.log(err);
+    });
+
+    form.uploadDir = dir + dateNow;
+    console.log('form.uploadDir: ', form.uploadDir);
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
         // переименовывание файла (без генерации уникального имени)
         .on('fileBegin', function(name, file) {
-            file.path = form.uploadDir + file.name;
+            file.path = form.uploadDir + '/' + file.name;
         })
         .on('file', function(name, file) {
             files[name] = file;
@@ -276,11 +291,17 @@ router.post('/admin/upload_news/:table', function(req, res, next) {
                 /*array1.forEach(function(element) {
 				  console.log(element);
 				});
-				*/
+                */
+
                 allFiles.forEach(function(el) {
+                    console.log('table: ', table);
+                    console.log('fields.idnews: ', idnews);
+                    console.log('el.file.name: ', el.file.name);
+                    console.log('el.file.path: ', el.file.path);
                     con.query(
                         'Insert into ?? (idnews,name,link) values (?,?,?)',
-                        [table, fields.idnews, el.file.name, el.file.path],
+                        [table, idnews, el.file.name, el.file.path],
+
                         function(error, result) {
                             if (error) return res.status(406).send(error);
                             console.log(result);
@@ -289,9 +310,8 @@ router.post('/admin/upload_news/:table', function(req, res, next) {
                     );
                 });
                 con.release();
+                res.end();
             });
-            res.writeHead(200, { 'content-type': 'text/plain' });
-            res.end();
         });
 });
 
