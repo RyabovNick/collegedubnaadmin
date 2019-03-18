@@ -7,8 +7,8 @@ var router = require('express').Router(),
     formidable = require('formidable'),
     util = require('util'),
     os = require('os'),
-    fse = require('fs-extra');
-auth = require('../../auth');
+    fse = require('fs-extra'),
+    auth = require('../../auth');
 
 /**
  * upload form for testing
@@ -30,14 +30,20 @@ router.get('/upload_form', function(req, res, next) {
  * TODO:
  * 1. auth !!!
  */
-router.post('/admin/upload/:table', function(req, res, next) {
+router.post('/admin/upload/:table', auth.required, function(req, res, next) {
     var table = req.params.table;
     var form = new formidable.IncomingForm(),
         files = {},
         fields = {};
 
-    form.uploadDir = `../collegedubna/static/files/${table}/`;
+    dir = `../collegedubna/static/files/${table}/`;
     form.keepExtensions = true;
+
+    fse.ensureDir(dir, (err) => {
+        console.log(err);
+    });
+
+    form.uploadDir = dir;
 
     var query_result = []; //save all insert responses
 
@@ -129,7 +135,7 @@ router.post('/admin/education/upload/:row/:tuple', auth.required, function(req, 
         files = {},
         fields = {};
 
-    form.uploadDir = '../collegedubna/static/files/';
+    form.uploadDir = '../collegedubna/static/files/education/';
     form.keepExtensions = true;
 
     var query_result = []; //save all insert responses
@@ -149,17 +155,16 @@ router.post('/admin/education/upload/:row/:tuple', auth.required, function(req, 
             next(err);
         })
         .on('end', function() {
-            console.log('files.upload: ', files.upload);
             pool.getConnection(function(err, con) {
                 if (err) return res.status(406).send(err);
                 con.query(
                     'Update `eduop` set ?? = ? where `id` = ?',
-                    [tuple, files.upload.path, row],
+                    [tuple, `education/${files.upload.name}`, row],
                     function(error, result) {
                         if (error) return res.status(406).send(error);
-                        console.log(result);
                         query_result.push(result);
                         con.release();
+                        res.send(result);
                     }
                 );
             });
@@ -174,7 +179,7 @@ router.post('/admin/upload_news', auth.required, function(req, res, next) {
         files = {},
         fields = {};
 
-    dir = '../collegedubna/static/files/';
+    dir = '../collegedubna/static/files/news/';
     form.keepExtensions = true;
 
     let date = new Date();
@@ -182,21 +187,18 @@ router.post('/admin/upload_news', auth.required, function(req, res, next) {
         ('0' + date.getDate()).slice(-2) +
         ('0' + (date.getMonth() + 1)).slice(-2) +
         String(date.getFullYear()).substring(2);
-    console.log('dateNow: ', dateNow);
 
     fse.ensureDir(dir + dateNow, (err) => {
         console.log(err);
     });
 
     form.uploadDir = dir + dateNow;
-    console.log('form.uploadDir: ', form.uploadDir);
 
     var query_result = []; //save all insert responses
 
     form.parse(req)
         // переименовывание файла (без генерации уникального имени)
         .on('fileBegin', function(name, file) {
-            console.log('form.uploadDir 2 : ', form.uploadDir);
             file.path = form.uploadDir + '/' + file.name;
         })
         .on('file', function(name, file) {
@@ -213,14 +215,13 @@ router.post('/admin/upload_news', auth.required, function(req, res, next) {
                 if (err) {
                     return res.status(406).send(err);
                 }
-                console.log('files.upload: ', files.upload);
                 con.query(
                     'Insert into `news` (title,content,date_now,logo) values (?,?,?,?)',
                     [
                         fields.title,
                         fields.content,
                         fields.date_now,
-                        `${dateNow}/${files.upload.name}`,
+                        `news/${dateNow}/${files.upload.name}`,
                     ],
                     function(error, result) {
                         if (error) {
@@ -246,7 +247,7 @@ router.post('/admin/upload_news/:table/:idnews', auth.required, function(req, re
         fields = {},
         allFiles = [];
 
-    dir = '../collegedubna/static/files/';
+    dir = '../collegedubna/static/files/news/';
     form.keepExtensions = true;
     form.multiples = true;
 
@@ -255,14 +256,12 @@ router.post('/admin/upload_news/:table/:idnews', auth.required, function(req, re
         ('0' + date.getDate()).slice(-2) +
         ('0' + (date.getMonth() + 1)).slice(-2) +
         String(date.getFullYear()).substring(2);
-    console.log('dateNow: ', dateNow);
 
     fse.ensureDir(dir + dateNow, (err) => {
         console.log(err);
     });
 
     form.uploadDir = dir + dateNow;
-    console.log('form.uploadDir: ', form.uploadDir);
 
     var query_result = []; //save all insert responses
 
@@ -274,11 +273,9 @@ router.post('/admin/upload_news/:table/:idnews', auth.required, function(req, re
         .on('file', function(name, file) {
             files[name] = file;
             allFiles.push({ name, file });
-            console.log('file: ' + file);
         })
         .on('field', function(name, field) {
             fields[name] = field;
-            console.log('field: ' + fields);
         })
         .on('error', function(err) {
             next(err);
@@ -289,23 +286,14 @@ router.post('/admin/upload_news/:table/:idnews', auth.required, function(req, re
             }
             pool.getConnection(function(err, con) {
                 if (err) return res.status(406).send(err);
-                /*array1.forEach(function(element) {
-				  console.log(element);
-				});
-                */
 
                 allFiles.forEach(function(el) {
-                    console.log('table: ', table);
-                    console.log('fields.idnews: ', idnews);
-                    console.log('el.file.name: ', el.file.name);
-                    console.log('el.file.path: ', el.file.path);
                     con.query(
                         'Insert into ?? (idnews,name,link) values (?,?,?)',
-                        [table, idnews, el.file.name, `${dateNow}/${files.upload.name}`],
+                        [table, idnews, el.file.name, `news/${dateNow}/${files.upload.name}`],
 
                         function(error, result) {
                             if (error) return res.status(406).send(error);
-                            console.log(result);
                             query_result.push(result);
                         }
                     );
