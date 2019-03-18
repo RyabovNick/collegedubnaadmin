@@ -77,6 +77,20 @@ router.route('/admin/education/eduop').get(auth.required, (req, res, next) => {
     );
 });
 
+router.put('/admin/education/eduop/:row/:tuple', auth.required, (req, res, next) => {
+    const tuple = req.params.tuple;
+    const row = req.params.row;
+
+    pool.query('UPDATE `eduop` SET ?? = NULL WHERE `id` = ?', [tuple, row], (error, result) => {
+        if (error) return res.status(400).send(error);
+        if (result.length == 0) {
+            return res.sendStatus(204);
+        } else {
+            return res.send(result);
+        }
+    });
+});
+
 router
     .route('/admin/education/educhislen')
     .get(auth.required, (req, res, next) => {

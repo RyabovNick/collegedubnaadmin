@@ -8,6 +8,7 @@ var router = require('express').Router(),
     util = require('util'),
     os = require('os'),
     fse = require('fs-extra');
+auth = require('../../auth');
 
 /**
  * upload form for testing
@@ -121,7 +122,7 @@ router.post('/admin/objects/purposelibr', function(req, res, next) {
 /**
  * eduOP file upload
  */
-router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
+router.post('/admin/education/upload/:row/:tuple', auth.required, function(req, res, next) {
     var tuple = req.params.tuple;
     var row = req.params.row;
     var form = new formidable.IncomingForm(),
@@ -168,7 +169,7 @@ router.post('/admin/education/upload/:row/:tuple', function(req, res, next) {
 /**
  * Add news
  */
-router.post('/admin/upload_news', function(req, res, next) {
+router.post('/admin/upload_news', auth.required, function(req, res, next) {
     var form = new formidable.IncomingForm(),
         files = {},
         fields = {};
@@ -237,7 +238,7 @@ router.post('/admin/upload_news', function(req, res, next) {
 /**
  * upload docs / photos to news
  */
-router.post('/admin/upload_news/:table/:idnews', function(req, res, next) {
+router.post('/admin/upload_news/:table/:idnews', auth.required, function(req, res, next) {
     var table = req.params.table;
     var idnews = req.params.idnews;
     var form = new formidable.IncomingForm(),
