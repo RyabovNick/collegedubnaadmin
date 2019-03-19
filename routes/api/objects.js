@@ -51,7 +51,7 @@ router.get('/educode', function(req, res, next) {
 router.get('/cabinets/:id', function(req, res, next) {
     const id = req.params['id'];
     pool.query(
-        'SELECT edca.name as discipline, cab.name as cabname, cab.address, cab.disabled ' +
+        'SELECT edca.name as discipline, cab.name as cabname, cab.address, cab.forDisabled as forDisabled ' +
             'FROM eduaccred edua ' +
             'INNER JOIN eduaccred_cabinets edca on edua.id = edca.edu_id ' +
             'INNER JOIN cabinets cab on cab.id = edca.cabinet_id ' +
