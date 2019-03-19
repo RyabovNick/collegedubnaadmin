@@ -12,6 +12,7 @@ router.use('/', require('./objects'));
 router.use('/', require('./vacant'));
 router.use('/', require('./employees'));
 router.use('/', require('./education'));
+router.use('/', require('./gallery'));
 router.use('/', require('./admin/common'));
 router.use('/', require('./admin/education'));
 router.use('/', require('./admin/eduStandarts'));

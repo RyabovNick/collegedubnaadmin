@@ -6,8 +6,15 @@ const router = express.Router();
 const cors = require('cors');
 const passport = require('passport');
 const errorhandler = require('errorhandler');
+const https = require('https');
+const fs = require('fs');
 
 const isProduction = process.env.NODE_ENV === 'development';
+
+const sslOptions = {
+    pfx: fs.readFileSync('./sslcert.pfx'),
+    passphrase: '12345678',
+};
 
 const app = express();
 
@@ -73,9 +80,13 @@ app.use(function(err, req, res, next) {
     });
 });
 
-// finally, let's start our server...
+// http
 var server = app.listen(process.env.PORT || 3000, function() {
     console.log('Listening on port ' + server.address().port);
 });
+
+// https.createServer(sslOptions, app).listen(process.env.PORT || 3000, () => {
+//     console.log(`Listening ...`);
+// });
 
 module.exports = router;
