@@ -242,6 +242,7 @@ router.post('/admin/upload_news', auth.required, function(req, res, next) {
 router.post('/admin/upload_news/:table/:idnews', auth.required, function(req, res, next) {
     var table = req.params.table;
     var idnews = req.params.idnews;
+
     var form = new formidable.IncomingForm(),
         files = {},
         fields = {},

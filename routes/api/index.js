@@ -24,6 +24,7 @@ router.use('/', require('./admin/pages'));
 router.use('/', require('./admin/upload'));
 router.use('/', require('./admin/vacant'));
 router.use('/', require('./admin/news'));
+router.use('/', require('./admin/gallery'));
 router.use('/', require('./pages'));
 router.use('/', require('./homeimgs'));
 
