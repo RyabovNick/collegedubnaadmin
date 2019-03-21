@@ -122,6 +122,28 @@ var findAllWithOrder = function(res, table, order) {
 };
 
 /**
+ * Search with asc order
+ * @param {response} res - send response from API
+ * @param {string} table - table name
+ * @param {*} order - order
+ */
+var findAllWithOrderAsc = function(res, table, order) {
+    pool.getConnection(function(err, con) {
+        if (err) return res.status(406).send(err);
+        con.query('Select * from ?? order by ??', [table, order], function(error, result) {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                con.release();
+                return res.sendStatus(204);
+            } else {
+                con.release();
+                return res.send(result);
+            }
+        });
+    });
+};
+
+/**
  * Search with desc order and LIMIT from, to
  * @param {response} res - send response from API
  * @param {string} table - table name
@@ -176,6 +198,7 @@ module.exports = {
     findByField: findByField,
     findByLike: findByLike,
     findAllWithOrder: findAllWithOrder,
+    findAllWithOrderAsc: findAllWithOrderAsc,
     findWithLimit: findWithLimit,
     countRows: countRows,
 };

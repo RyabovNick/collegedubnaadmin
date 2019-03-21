@@ -50,8 +50,8 @@ router
 
                     allFiles.forEach(function(el) {
                         con.query(
-                            'Insert into `gallery` (link) values (?)',
-                            [`carousel/${files.upload.name}`],
+                            'Insert into `gallery` (link, number) values (?, ?)',
+                            [`carousel/${files.upload.name}`, fields.number],
 
                             function(error, result) {
                                 if (error) return res.status(406).send(error);
@@ -63,6 +63,9 @@ router
                     res.end();
                 });
             });
+    })
+    .put(auth.required, (req, res, next) => {
+        apiHelper.update(res, 'gallery', req.body);
     })
     .delete(auth.required, function(req, res, next) {
         apiHelper.drop(res, 'gallery', req.body);

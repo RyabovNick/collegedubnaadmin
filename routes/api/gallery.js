@@ -8,7 +8,7 @@ const apiHelper = require('./apiHelper');
  * get all from common
  */
 router.get('/gallery', function(req, res, next) {
-    apiHelper.findAll(res, 'gallery');
+    apiHelper.findAllWithOrderAsc(res, 'gallery', 'number');
 });
 
 module.exports = router;
