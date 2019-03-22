@@ -19,13 +19,20 @@ router.route('/admin/kcp_pages').get(auth.required, (req, res, next) => {
 });
 
 /**
+ * Получение всех типов
+ */
+router.route('/admin/kcp_types').get(auth.required, (req, res, next) => {
+    apiHelper.select(res, 'kcp_types');
+});
+
+/**
  * Получение страниц и содержимого
  */
 router
     .route('/admin/environment')
     .get(auth.required, (req, res, next) => {
         pool.query(
-            'SELECT kcpc.id as id, kcp.name, kcp.name_ru, kcpc.page_id as page_id, kcpc.type as type, kcpc.link as link ' +
+            'SELECT kcpc.id as id, kcp.name, kcp.name_ru, kcpc.page_id as page_id, kcpc.type as type, kcpc.link as link, kcpc.name as link_name ' +
                 'FROM `known_content_pages` kcp ' +
                 'INNER JOIN  `kcp_content` kcpc ON kcp.`id` =  kcpc.`page_id`',
             function(error, result) {
