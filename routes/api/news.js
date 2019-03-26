@@ -51,6 +51,20 @@ router.get('/news/page/:page', function(req, res, next) {
     apiHelper.findWithLimit(res, 'news', 'date_now', from, to);
 });
 
+router.get('/lastsixnews', (req, res, next) => {
+    pool.query(
+        'SELECT * FROM `news` order by `rank`, `date_now` desc LIMIT 0,6',
+        (error, result) => {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                return res.sendStatus(204);
+            } else {
+                return res.send(result);
+            }
+        }
+    );
+});
+
 router.get('/newscount', (req, res, next) => {
     pool.query('Select count(*) as news_count from `news`', (error, result) => {
         if (error) return res.status(400).send(error);

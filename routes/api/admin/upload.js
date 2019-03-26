@@ -216,12 +216,13 @@ router.post('/admin/upload_news', auth.required, function(req, res, next) {
                     return res.status(406).send(err);
                 }
                 con.query(
-                    'Insert into `news` (title,content,date_now,logo) values (?,?,?,?)',
+                    'Insert into `news` (title,content,date_now,logo,rank) values (?,?,?,?,?)',
                     [
                         fields.title,
                         fields.content,
                         fields.date_now,
                         `news/${dateNow}/${files.upload.name}`,
+                        fields.rank,
                     ],
                     function(error, result) {
                         if (error) {
