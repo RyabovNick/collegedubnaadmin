@@ -26,6 +26,8 @@ router.use('/', require('./admin/vacant'));
 router.use('/', require('./admin/news'));
 router.use('/', require('./admin/gallery'));
 router.use('/', require('./admin/known_content_pages'));
+router.use('/', require('./admin/paths'));
+router.use('/', require('./admin/files'));
 router.use('/', require('./pages'));
 router.use('/', require('./homeimgs'));
 router.use('/', require('./known_content_pages'));
