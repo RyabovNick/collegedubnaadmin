@@ -26,6 +26,50 @@ var select = function(res, tablename) {
 };
 
 /**
+ * Select all rows from table for current id
+ * @param {response} res - send response from API
+ * @param {string} table - table name
+ * @param {int} id - value
+ */
+var findById = function findById(res, table, id) {
+    pool.getConnection(function(err, con) {
+        if (err) return res.status(406).send(err);
+        con.query('Select * from ?? where id = ?', [table, id], function(error, result) {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                con.release();
+                return res.sendStatus(204);
+            } else {
+                con.release();
+                return res.send(result);
+            }
+        });
+    });
+};
+
+/**
+ * Search with desc order
+ * @param {response} res - send response from API
+ * @param {string} table - table name
+ * @param {*} order - order
+ */
+var findAllWithOrder = function(res, table, order) {
+    pool.getConnection(function(err, con) {
+        if (err) return res.status(406).send(err);
+        con.query('Select * from ?? order by ?? desc', [table, order], function(error, result) {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                con.release();
+                return res.sendStatus(204);
+            } else {
+                con.release();
+                return res.send(result);
+            }
+        });
+    });
+};
+
+/**
  * Insert data to table
  * @param {response} res - send response from API
  * @param {string} table - table name
@@ -126,6 +170,8 @@ var drop = function(res, table, data) {
 
 module.exports = {
     select: select,
+    findAllWithOrder: findAllWithOrder,
+    findById: findById,
     insert: insert,
     drop: drop,
     update: update,
