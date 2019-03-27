@@ -26,9 +26,6 @@ router.get('/upload_form', function(req, res, next) {
 
 /**
  * Upload API
- *
- * TODO:
- * 1. auth !!!
  */
 router.post('/admin/upload/:table', auth.required, function(req, res, next) {
     var table = req.params.table;
@@ -69,7 +66,6 @@ router.post('/admin/upload/:table', auth.required, function(req, res, next) {
                     [table, fields.name, `${table}/${files.upload.name}`],
                     function(error, result) {
                         if (error) return res.status(406).send(error);
-                        console.log(result);
                         query_result.push(result);
                         con.release();
                         res.send(result);

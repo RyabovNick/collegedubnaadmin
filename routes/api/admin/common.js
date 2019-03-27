@@ -1,9 +1,9 @@
 /**
  * API for common JUST CRUD
  */
-const router = require('express').Router();
-const apiHelper = require('./adminAPIHelper');
-const auth = require('../../auth');
+const router = require('express').Router(),
+    apiHelper = require('./adminAPIHelper'),
+    auth = require('../../auth');
 
 /**
  * get all from common

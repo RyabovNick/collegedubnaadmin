@@ -1,15 +1,15 @@
 /**
- * id, name, link
- * Delete row,
- * update row,
- * upload and insert
+ * CRUD eduStandarts
  */
-const router = require('express').Router();
-const apiHelper = require('./adminAPIHelper');
-const auth = require('../../auth');
+const router = require('express').Router(),
+    apiHelper = require('./adminAPIHelper'),
+    auth = require('../../auth');
 
 /**
- * go to upload.js
+ * GET - from public
+ * POST
+ * PUT - в upload.js ('/admin/upload/:table)
+ * DELETE
  */
 router
     .route('/admin/eduStandarts')
