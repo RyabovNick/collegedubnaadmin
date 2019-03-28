@@ -6,6 +6,8 @@ const router = require('express').Router();
 const apiHelper = require('./adminAPIHelper');
 const pool = require('../../../config/config');
 const auth = require('../../auth');
+const formidable = require('formidable');
+const fse = require('fs-extra');
 
 /**
  * go to upload.js
@@ -81,12 +83,29 @@ router.put('/admin/education/eduop/:row/:tuple', auth.required, (req, res, next)
     const tuple = req.params.tuple;
     const row = req.params.row;
 
-    pool.query('UPDATE `eduop` SET ?? = NULL WHERE `id` = ?', [tuple, row], (error, result) => {
-        if (error) return res.status(400).send(error);
+    pool.query('Select ?? as name from `eduop` where `id` = ?', [tuple, row], (err, result) => {
+        if (err) return res.status(400).send(err);
         if (result.length == 0) {
             return res.sendStatus(204);
         } else {
-            return res.send(result);
+            fse.remove(`../collegedubna/static/files/${result[0].name}`)
+                .then(() => {
+                    pool.query(
+                        'UPDATE `eduop` SET ?? = NULL WHERE `id` = ?',
+                        [tuple, row],
+                        (error, result1) => {
+                            if (error) return res.status(400).send(error);
+                            if (result1.length == 0) {
+                                return res.sendStatus(204);
+                            } else {
+                                return res.send(result1);
+                            }
+                        }
+                    );
+                })
+                .catch((err) => {
+                    return res.status(400).send(err);
+                });
         }
     });
 });

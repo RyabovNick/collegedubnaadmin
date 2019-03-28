@@ -5,6 +5,7 @@ const router = require('express').Router();
 const apiHelper = require('./adminAPIHelper');
 const auth = require('../../auth');
 const pool = require('../../../config/config');
+const formidable = require('formidable');
 const fse = require('fs-extra');
 
 /**
@@ -30,7 +31,7 @@ router.route('/admin/files').get(auth.required, (req, res, next) => {
  * Add files
  */
 router.post('/admin/upload_files/:path', auth.required, function(req, res, next) {
-    var form = new formidable.IncomingForm(),
+    let form = new formidable.IncomingForm(),
         files = {},
         fields = {};
 
