@@ -108,7 +108,7 @@ var insert = function(res, table, data) {
 var update = function(res, table, data) {
     let keys = Object.keys(data),
         values = Object.values(data);
-    console.log(data);
+    // console.log(data);
     //prepared string to update query
     //short if for last ','
     let prepared_string = '';
@@ -117,21 +117,21 @@ var update = function(res, table, data) {
         if (err) throw err;
         for (i = 0; i < keys.length; i++) {
             if (keys[i] === 'id') {
-                console.log('match keys[i]: ', keys[i]);
+                // console.log('match keys[i]: ', keys[i]);
                 i++;
             }
             prepared_string += keys[i] + ' = ' + con.escape(values[i]);
             prepared_string += i == keys.length - 1 ? '' : ',';
         }
-        console.log('prepared_string: ', prepared_string);
+        // console.log('prepared_string: ', prepared_string);
 
         con.query(
             `UPDATE ?? SET ${prepared_string} where id = ${con.escape(data.id)}`,
             [table],
             function(error, result) {
-                console.log('result: ', result);
+                // console.log('result: ', result);
                 if (error) {
-                    console.log(error);
+                    // console.log(error);
                     return res.status(400).send(error);
                 }
                 if (result.length == 0) {

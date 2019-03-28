@@ -1,37 +1,24 @@
-process.env.NODE_ENV = 'test';
-
-const chai = require('chai');
-const chaihttp = require('chai-http');
-const app = require('../app');
-const should = chai.should();
-const pool = require('../config/config');
-const token = require('../config/token');
-
-chai.use(chaihttp);
-
-var requester = chai.request('http://localhost:3000').keepOpen();
-
-var row1 = {
+let row1 = {
     name: 'Дата создания образовательной организации',
     tag: 'regDate',
     value: '13.04.1983',
 };
 
-var row2 = {
+let row2 = {
     id: 0,
     name: 'Дата создания образовательной организации',
     tag: 'regDate',
     value: '13.04.1983',
 };
 
-var api1 = '/api/common';
-var api2 = '/api/admin/common';
+let api1 = '/api/common';
+let api2 = '/api/admin/common';
 
-var tableName = 'common';
+let tableName = 'common';
 
-var insertId = 0;
+let insertId = 0;
 
-describe('Common', () => {
+describe('testing system', () => {
     before((done) => {
         //Before each test we empty the database
         pool.getConnection(function(err, con) {
@@ -78,6 +65,16 @@ describe('Common', () => {
                     row2['id'] = insertId;
                     done();
                 });
+        });
+    });
+
+    describe('/GET all ' + tableName + ' rows', () => {
+        it('it should have one row', (done) => {
+            requester.get(api1).end((err, res) => {
+                res.should.have.status(200);
+                expect(res.body).to.have.lengthOf(1);
+                done();
+            });
         });
     });
 
@@ -134,6 +131,13 @@ describe('Common', () => {
                 });
         });
     });
-});
 
-requester.close();
+    describe('/GET all ' + tableName + ' rows', () => {
+        it('it should show zero row', (done) => {
+            requester.get(api1).end((err, res) => {
+                res.should.have.status(204);
+                done();
+            });
+        });
+    });
+});

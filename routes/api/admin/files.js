@@ -45,7 +45,7 @@ router.post('/admin/upload_files/:path', auth.required, function(req, res, next)
         form.keepExtensions = true;
 
         fse.ensureDir(dir, (err) => {
-            console.log(err);
+            // console.log(err);
         });
 
         form.uploadDir = dir;
@@ -99,7 +99,7 @@ router.delete('/admin/upload_files/:id', auth.required, function(req, res, next)
         id,
         (error, result) => {
             if (error) {
-                console.log('error: ', error);
+                // console.log('error: ', error);
                 return res.status(400).send(error);
             }
             if (result.length == 0) {

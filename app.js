@@ -55,7 +55,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (!isProduction) {
     app.use(function(err, req, res, next) {
-        console.log(err.stack);
+        // console.log(err.stack);
 
         res.status(err.status || 500);
 
@@ -82,11 +82,12 @@ app.use(function(err, req, res, next) {
 
 // http
 var server = app.listen(process.env.PORT || 3000, function() {
-    console.log('Listening on port ' + server.address().port);
+    // console.log('Listening on port ' + server.address().port);
 });
 
 // https.createServer(sslOptions, app).listen(process.env.PORT || 3000, () => {
-//     console.log(`Listening ...`);
+//     // console.log(`Listening ...`);
 // });
 
 module.exports = router;
+module.exports = app;

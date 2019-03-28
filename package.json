@@ -6,7 +6,8 @@
     "scripts": {
         "start": "nodemon ./app.js",
         "test": "mocha",
-        "test_get": "mocha -g 'test all get api'",
+        "test_get": "mocha -g GETAPI",
+        "test_tests": "mocha --grep testing%20system",
         "docs": "./node_modules/.bin/esdoc"
     },
     "repository": {
@@ -49,6 +50,7 @@
         "esdoc": "^1.1.0",
         "esdoc-standard-plugin": "^1.0.0",
         "mocha": "^5.2.0",
-        "prettier": "^1.13.7"
+        "prettier": "^1.13.7",
+        "supertest": "^4.0.2"
     }
 }

@@ -27,7 +27,7 @@ router
             id,
             (error, result) => {
                 if (error) {
-                    console.log('error: ', error);
+                    // console.log('error: ', error);
                     return res.status(400).send(error);
                 }
                 if (result.length == 0) {

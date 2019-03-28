@@ -39,7 +39,7 @@ router.get('/user', auth.required, function(req, res, next) {
  * if false - send error
  */
 router.post('/user/login', function(req, res, next) {
-    console.log('req.body: ', req.body);
+    // console.log('req.body: ', req.body);
 
     if (!req.body.user.email || !req.body.user.password) {
         return res.status(400).json({ message: 'Логин или пароль не может быть пустым' });
@@ -53,7 +53,7 @@ router.post('/user/login', function(req, res, next) {
         if (user) {
             return res.json({ user: toAuthJSON(user) });
         } else {
-            console.log('info: ', info);
+            // console.log('info: ', info);
             return res.status(422).json(info);
         }
     })(req, res, next);

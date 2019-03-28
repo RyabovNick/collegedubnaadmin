@@ -37,7 +37,7 @@ router.post('/admin/upload/:table', auth.required, function(req, res, next) {
     form.keepExtensions = true;
 
     fse.ensureDir(dir, (err) => {
-        console.log(err);
+        // console.log(err);
     });
 
     form.uploadDir = dir;
@@ -111,7 +111,7 @@ router.post('/admin/objects/purposelibr', function(req, res, next) {
                     [fields.name, fields.area, fields.placecount, files.upload.path],
                     function(error, result) {
                         if (error) return res.status(406).send(error);
-                        console.log(result);
+                        // console.log(result);
                         query_result.push(result);
                         con.release();
                         res.end();
@@ -185,7 +185,7 @@ router.post('/admin/upload_news', auth.required, function(req, res, next) {
         String(date.getFullYear()).substring(2);
 
     fse.ensureDir(dir + dateNow, (err) => {
-        console.log(err);
+        // console.log(err);
     });
 
     form.uploadDir = dir + dateNow;
@@ -256,7 +256,7 @@ router.post('/admin/upload_news/:table/:idnews', auth.required, function(req, re
         String(date.getFullYear()).substring(2);
 
     fse.ensureDir(dir + dateNow, (err) => {
-        console.log(err);
+        // console.log(err);
     });
 
     form.uploadDir = dir + dateNow;
