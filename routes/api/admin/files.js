@@ -1,12 +1,12 @@
 /**
  * API for common JUST CRUD
  */
-const router = require('express').Router();
-const apiHelper = require('./adminAPIHelper');
-const auth = require('../../auth');
-const pool = require('../../../config/config');
-const formidable = require('formidable');
-const fse = require('fs-extra');
+const router = require('express').Router(),
+    apiHelper = require('./adminAPIHelper'),
+    auth = require('../../auth'),
+    pool = require('../../../config/config'),
+    formidable = require('formidable'),
+    fse = require('fs-extra');
 
 /**
  * get all from files table

@@ -25,17 +25,17 @@ router
     });
 
 router.route('/admin/listnews').get(auth.required, (req, res, next) => {
-    pool.query('Select id, title, date_now from `news` order by date_now desc', function(
-        error,
-        result
-    ) {
-        if (error) return res.status(400).send(error);
-        if (result.length == 0) {
-            return res.sendStatus(204);
-        } else {
-            return res.send(result);
+    pool.query(
+        'Select id, title, date_now, rank from `news` order by rank, date_now desc',
+        function(error, result) {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                return res.sendStatus(204);
+            } else {
+                return res.send(result);
+            }
         }
-    });
+    );
 });
 
 router

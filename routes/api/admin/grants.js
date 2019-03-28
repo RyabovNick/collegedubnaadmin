@@ -4,9 +4,9 @@
  * hostelinfo - create, alter, drop
  * grantsdocs - go to upload.js (create, drop)
  */
-const router = require('express').Router();
-const apiHelper = require('./adminAPIHelper');
-const auth = require('../../auth');
+const router = require('express').Router(),
+    apiHelper = require('./adminAPIHelper'),
+    auth = require('../../auth');
 
 /**
  * go to upload.js

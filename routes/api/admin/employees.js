@@ -3,9 +3,9 @@
  * Heads,
  * TeachingStaff
  */
-const router = require('express').Router();
-const apiHelper = require('./adminAPIHelper');
-const auth = require('../../auth');
+const router = require('express').Router(),
+    apiHelper = require('./adminAPIHelper'),
+    auth = require('../../auth');
 
 router
     .route('/admin/teachingstaff')

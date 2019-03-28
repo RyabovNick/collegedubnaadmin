@@ -1,16 +1,17 @@
 /**
- *
+ * Libs
  */
-
-const router = require('express').Router();
-const apiHelper = require('./adminAPIHelper');
-const pool = require('../../../config/config');
-const auth = require('../../auth');
-const formidable = require('formidable');
-const fse = require('fs-extra');
+const router = require('express').Router(),
+    apiHelper = require('./adminAPIHelper'),
+    pool = require('../../../config/config'),
+    auth = require('../../auth'),
+    formidable = require('formidable'),
+    fse = require('fs-extra');
 
 /**
  * go to upload.js
+ *
+ * add to db eduaccred and checked years
  */
 router
     .route('/admin/education/eduaccred')
@@ -62,6 +63,9 @@ router
         apiHelper.drop(res, 'eduaccred', req.body);
     });
 
+/**
+ * list w/ years
+ */
 router.route('/admin/education/eduop').get(auth.required, (req, res, next) => {
     pool.query(
         'SELECT  `eduaccred`.`id` AS  `accredId` ,  `eduaccred`.`eduCode` ,  `eduaccred`.`eduName` ,  `eduop`.`year` ,  `eduop`.`id` AS  `eduopId` ,  `opMain` ,  `educationPlan` ,  `educationAnnotation` , `educationShedule` ,  `methodology` ,  `eduPr`' +
@@ -79,6 +83,9 @@ router.route('/admin/education/eduop').get(auth.required, (req, res, next) => {
     );
 });
 
+/**
+ * Delete file (update to null in db and delete from server)
+ */
 router.put('/admin/education/eduop/:row/:tuple', auth.required, (req, res, next) => {
     const tuple = req.params.tuple;
     const row = req.params.row;
@@ -110,6 +117,9 @@ router.put('/admin/education/eduop/:row/:tuple', auth.required, (req, res, next)
     });
 });
 
+/**
+ * CRUD eduChislen
+ */
 router
     .route('/admin/education/educhislen')
     .get(auth.required, (req, res, next) => {

@@ -1,12 +1,12 @@
 /**
- *
+ * Libs
  */
+const router = require('express').Router(),
+    apiHelper = require('./adminAPIHelper'),
+    pool = require('../../../config/config'),
+    auth = require('../../auth'),
+    formidable = require('formidable');
 
-const router = require('express').Router();
-const apiHelper = require('./adminAPIHelper');
-const pool = require('../../../config/config');
-const auth = require('../../auth');
-const formidable = require('formidable');
 /**
  * Carousel get, post (upload file) and delete
  */
