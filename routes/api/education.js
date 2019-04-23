@@ -70,7 +70,7 @@ router.get('/eduop', function(req, res, next) {
     pool.getConnection(function(err, con) {
         if (err) return res.status(406).send(err);
         con.query(
-            'SELECT  `eduaccred`.`id`, `eduaccred`.`eduCode`,  `eduaccred`.`eduName`,  `eduaccred`.`eduLevel`,  `eduaccred`.`eduForm`,`eduop`.`year`,  `opMain`,  `educationPlan`,  `educationAnnotation`,  `educationShedule`, `methodology`, `eduPr`' +
+            'SELECT  `eduop`.`id`, `eduaccred`.`eduCode`,  `eduaccred`.`eduName`,  `eduaccred`.`eduLevel`,  `eduaccred`.`eduForm`,`eduop`.`year`,  `opMain`,  `educationPlan`,  `educationAnnotation`,  `educationShedule`, `methodology`, `eduPr`' +
                 'FROM  `eduaccred`' +
                 'INNER JOIN  `eduop` ON  `eduaccred`.`id` =  `eduop`.`id_eduCode`' +
                 'ORDER BY `eduop`.`year` desc, `eduaccred`.`eduCode`',

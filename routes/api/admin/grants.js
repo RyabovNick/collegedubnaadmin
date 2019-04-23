@@ -23,6 +23,10 @@ router
         apiHelper.drop(res, 'graduatejob', req.body);
     });
 
+router.route('/admin/grants/grantsdocs').delete(auth.required, function(req, res, next) {
+    apiHelper.drop(res, 'grantsdocs', req.body);
+});
+
 router
     .route('/admin/grants/hostelinfo')
     .post(auth.required, function(req, res, next) {
