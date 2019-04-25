@@ -15,6 +15,9 @@ const router = require('express').Router(),
  */
 router
     .route('/admin/education/eduaccred')
+    .get(auth.required, (req, res, next) => {
+        apiHelper.select(res, 'eduaccred');
+    })
     .post(auth.required, function(req, res, next) {
         pool.getConnection(function(err, con) {
             if (err) throw err;

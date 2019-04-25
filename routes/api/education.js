@@ -9,7 +9,23 @@ const pool = require('../../config/config');
  * get all from eduaccred
  */
 router.get('/eduaccred', function(req, res, next) {
-    apiHelper.findAll(res, 'eduaccred');
+    pool.query(
+        `
+        Select *
+        From eduaccred e
+        where e.eduLevel is not null and e.eduLevel <> ''
+        and e.eduForm is not null and e.eduForm <> ''
+        and e.learningTerm is not null and e.learningTerm <> ''
+    `,
+        (error, result) => {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                return res.sendStatus(204);
+            } else {
+                return res.send(result);
+            }
+        }
+    );
 });
 
 /**
