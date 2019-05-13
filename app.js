@@ -11,11 +11,6 @@ const fs = require('fs');
 
 const isProduction = process.env.NODE_ENV === 'development';
 
-const sslOptions = {
-    pfx: fs.readFileSync('./sslcert.pfx'),
-    passphrase: '12345678',
-};
-
 const app = express();
 
 app.use(cors());
@@ -81,13 +76,20 @@ app.use(function(err, req, res, next) {
 });
 
 // http
-var server = app.listen(process.env.PORT || 3000, function() {
-    // console.log('Listening on port ' + server.address().port);
-});
+if (process.env.NODE_ENV === 'development') {
+    const server = app.listen(process.env.PORT || 3000, function() {
+        // console.log('Listening on port ' + server.address().port);
+    });
+} else {
+    const sslOptions = {
+        pfx: fs.readFileSync('./sslcert.pfx'),
+        passphrase: process.env.SSL_PASS,
+    };
 
-// https.createServer(sslOptions, app).listen(process.env.PORT || 3000, () => {
-//     // console.log(`Listening ...`);
-// });
+    https.createServer(sslOptions, app).listen(process.env.PORT || 3000, () => {});
+}
+
+// console.log(`Listening ...`);
 
 module.exports = router;
 module.exports = app;

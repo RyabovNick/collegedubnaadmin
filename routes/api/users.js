@@ -15,18 +15,19 @@ const auth = require('../auth.js');
  */
 router.get('/user', auth.required, function(req, res, next) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) res.sendStatus(500);
         con.query('Select id, email from `users` where id = ?', [req.payload.id], function(
             error,
             result
         ) {
-            if (error) throw error;
+            if (error) res.sendStatus(500);
             if (result.length == 0) {
+                con.release();
                 return res.sendStatus(401);
             } else {
+                con.release();
                 return res.json({ user: toAuthJSON([result[0].id, result[0].email]) });
             }
-            con.release();
         });
     });
 });
@@ -57,31 +58,6 @@ router.post('/user/login', function(req, res, next) {
             return res.status(422).json(info);
         }
     })(req, res, next);
-});
-
-/**
- * Registration API (not using in college, because 1 user)
- */
-router.post('/users', function(req, res, next) {
-    if (!req.body.user.email || !req.body.user.password) {
-        return res.status(422).json({ message: 'Поля не могут быть пустыми' });
-    }
-
-    var email = req.body.user.email;
-    var password = setPassword(req.body.user.password);
-
-    pool.getConnection(function(err, con) {
-        if (err) throw err;
-        con.query(
-            'Insert into `users` (email, hash, salt) values (?,?,?)',
-            [email, password[0], password[1]],
-            function(error, result) {
-                if (error) throw error;
-                res.send(result);
-                con.release();
-            }
-        );
-    });
 });
 
 /**

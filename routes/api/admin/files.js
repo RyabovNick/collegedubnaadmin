@@ -40,7 +40,7 @@ router.post('/admin/upload_files/:path', auth.required, function(req, res, next)
     pool.query('Select path from `paths` where id = ?', [path], function(error, result) {
         if (error) return res.status(400).send(error);
 
-        dir = `../collegedubna/static/files/${result[0].path}`;
+        dir = `../files/${result[0].path}`;
 
         form.keepExtensions = true;
 
@@ -105,7 +105,7 @@ router.delete('/admin/upload_files/:id', auth.required, function(req, res, next)
             if (result.length == 0) {
                 return res.sendStatus(204);
             } else {
-                fse.remove(`../collegedubna/static/${result[0].path}`)
+                fse.remove(`../${result[0].path}`)
                     .then(() => {
                         apiHelper.drop(res, 'files', { id: id });
                     })

@@ -81,7 +81,7 @@ var insert = function(res, table, data) {
             return "'" + data[key] + "'";
         });
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) res.sendStatus(500);
         con.query(
             'INSERT INTO ?? (' + keys.join(',') + ') VALUES (' + values.join(',') + ')',
             [table],
@@ -114,7 +114,7 @@ var update = function(res, table, data) {
     let prepared_string = '';
 
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) res.sendStatus(500);
         for (i = 0; i < keys.length; i++) {
             if (keys[i] === 'id') {
                 // console.log('match keys[i]: ', keys[i]);
@@ -154,7 +154,7 @@ var update = function(res, table, data) {
  */
 var drop = function(res, table, data) {
     pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) res.sendStatus(500);
         con.query('DELETE FROM ?? where id = ?', [table, data.id], function(error, result) {
             if (error) return res.status(400).send(error);
             if (result.length == 0) {

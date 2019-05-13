@@ -82,3 +82,6 @@ typings/
 # docs and uploaded files
 /docs
 /files
+
+# service
+/daemon

@@ -33,7 +33,7 @@ router.post('/admin/upload/:table', auth.required, function(req, res, next) {
         files = {},
         fields = {};
 
-    dir = `../collegedubna/static/files/${table}/`;
+    dir = `../files/${table}/`;
     form.keepExtensions = true;
 
     fse.ensureDir(dir, (err) => {
@@ -84,7 +84,7 @@ router.post('/admin/objects/purposelibr', function(req, res, next) {
         files = {},
         fields = {};
 
-    form.uploadDir = '../collegedubna/static/files/';
+    form.uploadDir = '../files/';
     form.keepExtensions = true;
 
     var query_result = []; //save all insert responses
@@ -131,7 +131,7 @@ router.post('/admin/education/upload/:row/:tuple', auth.required, function(req, 
         files = {},
         fields = {};
 
-    form.uploadDir = '../collegedubna/static/files/education/';
+    form.uploadDir = '../files/education/';
     form.keepExtensions = true;
 
     var query_result = []; //save all insert responses
@@ -175,7 +175,7 @@ router.post('/admin/upload_news', auth.required, function(req, res, next) {
         files = {},
         fields = {};
 
-    dir = '../collegedubna/static/files/news/';
+    dir = '../files/news/';
     form.keepExtensions = true;
 
     let date = new Date();
@@ -245,7 +245,7 @@ router.post('/admin/upload_news/:table/:idnews', auth.required, function(req, re
         fields = {},
         allFiles = [];
 
-    dir = '../collegedubna/static/files/news/';
+    dir = '../files/news/';
     form.keepExtensions = true;
     form.multiples = true;
 

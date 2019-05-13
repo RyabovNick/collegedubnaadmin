@@ -20,7 +20,7 @@ router
     })
     .post(auth.required, function(req, res, next) {
         pool.getConnection(function(err, con) {
-            if (err) throw err;
+            if (err) res.sendStatus(500);
             con.query(
                 'INSERT INTO `eduaccred` (`eduCode`, `eduName`, `eduLevel`, `eduForm`, `learningTerm`, `language`, `dateEnd`)' +
                     ' VALUES (?,?,?,?,?,?,?)',
@@ -98,7 +98,7 @@ router.put('/admin/education/eduop/:row/:tuple', auth.required, (req, res, next)
         if (result.length == 0) {
             return res.sendStatus(204);
         } else {
-            fse.remove(`../collegedubna/static/files/${result[0].name}`)
+            fse.remove(`../files/${result[0].name}`)
                 .then(() => {
                     pool.query(
                         'UPDATE `eduop` SET ?? = NULL WHERE `id` = ?',

@@ -33,7 +33,7 @@ router
                 if (result.length == 0) {
                     return res.sendStatus(204);
                 } else {
-                    fse.remove(`../collegedubna/static/files/${result[0].path}`)
+                    fse.remove(`../files/${result[0].path}`)
                         .then(() => {
                             apiHelper.drop(res, 'edustandartdoc', { id: id });
                         })

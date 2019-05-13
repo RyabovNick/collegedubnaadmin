@@ -18,7 +18,7 @@ router
             fields = {},
             allFiles = [];
 
-        dir = '../collegedubna/static/carousel/';
+        dir = '../files/carousel/';
         form.keepExtensions = true;
         form.multiples = true;
 
@@ -51,7 +51,7 @@ router
                     allFiles.forEach(function(el) {
                         con.query(
                             'Insert into `gallery` (link, number) values (?, ?)',
-                            [`carousel/${files.upload.name}`, fields.number],
+                            [`files/carousel/${files.upload.name}`, fields.number],
 
                             function(error, result) {
                                 if (error) return res.status(406).send(error);
