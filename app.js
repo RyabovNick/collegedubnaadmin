@@ -22,15 +22,6 @@ app.use(bodyParser.json());
 app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
 
-app.use(
-    session({
-        secret: process.env.SECRET,
-        cookit: { maxAge: 60 * 24 * 60 * 60 * 1000 },
-        resave: false,
-        saveUninitialized: false,
-    })
-);
-
 if (!isProduction) {
     app.use(errorhandler());
 }
