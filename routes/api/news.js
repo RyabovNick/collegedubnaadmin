@@ -16,6 +16,30 @@ router.get('/news', function(req, res, next) {
 });
 
 /**
+ * search
+ */
+router.get('/news/search/:slug', function(req, res, next) {
+    const slug = `%${req.params.slug}%`;
+
+    pool.query(
+        `
+    SELECT id, title, date_now FROM news
+    where title like ? or content like ?
+    order by date_now desc
+    `,
+        [slug, slug],
+        (error, result) => {
+            if (error) return res.status(400).send(error);
+            if (result.length == 0) {
+                return res.sendStatus(204);
+            } else {
+                return res.send(result);
+            }
+        }
+    );
+});
+
+/**
  * get news by id
  */
 router.get('/news/:id', function(req, res, next) {
